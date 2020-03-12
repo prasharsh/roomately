@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Roomately</string>
+    <string name="product_name_hint">Enter Product Name</string>
+    <string name="product_desc_hint">Enter Product Description</string>
+    <string name="toggle_low_stock">LOW-STOCK</string>
+    <string name="toggle_in_stock">IN-STOCK</string>
+    <string name="category_hint">Enter Category</string>
+    <string name="location_hint">Enter Product Location</string>
+    <string name="switch_toggle_hint">In/Low - Stock</string>
 </resources>
