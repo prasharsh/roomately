@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Roomately</string>
+    <string name="login_header">Login</string>
+    <string name="phone_login_explain">Touch the button below to\nlogin with your phone number:</string>
+    <string name="login_button_phone">Login with phone number</string>
+    <string name="email_login_explain">Enter email address and password to login</string>
+    <string name="registration_header">Registration</string>
+    <string name="or_login">OR</string>
+    <string name="reg_name">Your Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="reg_phone">Register with Phone Number</string>
+    <string name="reenter_pass">Re-enter Password</string>
 </resources>
