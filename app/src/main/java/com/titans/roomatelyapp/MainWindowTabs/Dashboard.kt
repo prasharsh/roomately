@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.titans.roomatelyapp.Items
 import com.titans.roomatelyapp.LowStockItems
 import com.titans.roomatelyapp.R
-import com.titans.roomatelyapp.Transactions
 
 class Dashboard: Fragment()
 {
@@ -35,7 +34,7 @@ class Dashboard: Fragment()
         }
 
         cardTransaction.setOnClickListener{v ->
-            startActivity(Intent(view.context, Transactions::class.java))
+//            startActivity(Intent(view.context, Items::class.java))
         }
 
         return view;

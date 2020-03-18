@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/actionbar"
         android:clickable="true"
-        app:srcCompat="@drawable/save"
+        app:srcCompat="@drawable/ic_save_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="15sp"/>
