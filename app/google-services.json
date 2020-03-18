@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1085925721538",
+    "firebase_url": "https://roomately.firebaseio.com",
+    "project_id": "roomately",
+    "storage_bucket": "roomately.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085925721538:android:0f910b4d9b13d27e78025b",
+        "android_client_info": {
+          "package_name": "com.titans.roomatelyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085925721538-ls7lvrqhjm9fro9rd144sljbn5f6jed9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtOv316953X66y6H42UEFXAWV9N-g52NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085925721538-ls7lvrqhjm9fro9rd144sljbn5f6jed9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
