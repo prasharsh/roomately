@@ -11,20 +11,21 @@
         android:id="@+id/actionbar"
         layout="@layout/actionbar"/>
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5sp"
-        app:layout_constraintTop_toBottomOf="@+id/actionbar"
-        android:elevation="5sp"
-        android:id="@+id/searchItem"/>
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:elevation="5sp"
+            android:layout_weight="1"
+            android:id="@+id/searchItem"
+            app:layout_constraintTop_toBottomOf="@id/actionbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/categoryList"
-        app:layout_constraintTop_toBottomOf="@id/searchItem"
-        android:layout_margin="5sp"/>
+        app:layout_constraintTop_toBottomOf="@id/searchItem"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/barcodScannerFloatingButtoon"
