@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -33,15 +35,30 @@ class LoginActivity : AppCompatActivity()
             startActivity(Intent(v.context, RegistrationActivity::class.java))
         }
 
-        /* Hides soft keyboard when focus changes from bill input editText. */
+        /* Hides soft keyboard when focus changes from email input editText. */
         emailField.setOnFocusChangeListener { view, b ->
             if (!b) hideKeyBoard(view)
         }
 
+        emailField.addTextChangedListener(object : TextWatcher
+        {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            /* AfterTextChanged is implemented so that user input can be edited dynamically. */
+            override fun afterTextChanged(s: Editable) {
+                /* Disable submit button if input is empty. Display error. */
+                if (emailField.text.isEmpty()) {
+                    emailField.error = "Please enter email"
+                    emailLoginButton.isEnabled = false
+                }
+                else emailLoginButton.isEnabled = true
+            }
+        })
+
         emailLoginButton.setOnClickListener {
             val email = emailField.text.toString()
             val password = passField.text.toString()
-            print(email.plus(password).plus(" heynow\n"))
             authUser.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
