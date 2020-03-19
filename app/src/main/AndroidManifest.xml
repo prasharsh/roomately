@@ -13,6 +13,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".LowStockItems" />
         <activity android:name=".Items" />
+        <activity android:name=".Transactions" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
