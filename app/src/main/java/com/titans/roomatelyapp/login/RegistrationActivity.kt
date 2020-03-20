@@ -3,6 +3,7 @@ package com.titans.roomatelyapp.login
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -66,20 +67,27 @@ class RegistrationActivity : AppCompatActivity()
             val password = passField.text.toString()
             val reenterPass = reenterPassField.text.toString()
 
-            authUser.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "createUserWithEmail:success")
-                        val user = authUser.currentUser
-                        val profile = Profile(user?.uid.toString(), name, email, password, null)
-                        addProfile(profile)
-                        startActivity(Intent(emailRegButton.context, MainActivity::class.java))
-                    } else {
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+            /* Validate user input before processing. */
+            if (checkEmail(email) && checkPassword(password, reenterPass)) {
+                authUser.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful)
+                        {
+                            Log.d(TAG, "createUserWithEmail:success")
+                            val user = authUser.currentUser
+                            val profile = Profile(user?.uid.toString(), name, email, password, null)
+                            addProfile(profile)
+                            startActivity(Intent(emailRegButton.context, MainActivity::class.java))
+                        } else
+                        {
+                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
+            }
         }
     }
 
@@ -88,7 +96,11 @@ class RegistrationActivity : AppCompatActivity()
      * @return Boolean indicating pass or fail.
      */
     private fun checkEmail(email: String): Boolean {
-        if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
+        /*if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
+            findViewById<EditText>(R.id.reg_email).error = "Please enter a valid email address."
+            return false
+        }*/
+        if (TextUtils.isEmpty(email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             findViewById<EditText>(R.id.reg_email).error = "Please enter a valid email address."
             return false
         }
@@ -97,11 +109,20 @@ class RegistrationActivity : AppCompatActivity()
 
     /**
      * @param pass string pulled from password field.
+     * @param rePass re-entered user password.
      * @return Boolean indicating pass or fail.
      */
-    private fun checkPassword(pass: String): Boolean {
+    private fun checkPassword(pass: String, rePass: String): Boolean {
         if (pass.isEmpty()) {
-            findViewById<EditText>(R.id.reg_email).error = "Please enter a password."
+            findViewById<EditText>(R.id.reg_pass).error = "Please enter a password."
+            return false
+        }
+        else if (pass.length < 6) {
+            findViewById<EditText>(R.id.reg_pass).error = "Please enter a password with more than six characters."
+            return false
+        }
+        else if (pass != rePass) {
+            findViewById<EditText>(R.id.reg_reenter_pass).error = "Passwords do not match."
             return false
         }
         else return true
