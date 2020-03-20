@@ -54,7 +54,7 @@
 
 
         <Switch
-            android:id="@+id/switchToogle"
+            android:id="@+id/switchStockStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
