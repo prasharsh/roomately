@@ -14,6 +14,7 @@
         <activity android:name=".LowStockItems" />
         <activity android:name=".items.ItemsActivity"/>
         <activity android:name=".Items" />
+        <activity android:name=".Transactions" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
