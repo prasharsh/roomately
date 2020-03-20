@@ -11,8 +11,6 @@
         android:id="@+id/actionbar"
         layout="@layout/actionbar"/>
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +52,10 @@
 
 
         <Switch
-            android:id="@+id/switchToogle"
+            android:id="@+id/switchToggle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/switch_toggle_hint"
             android:textOff="@string/toggle_low_stock"
             android:textOn="@string/toggle_in_stock" />
@@ -72,10 +70,9 @@
             android:hint="@string/location_hint"
             android:importantForAutofill="no" />
 
-
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/barcodScannerFloatingButtoon"
+        android:id="@+id/barcodeScannerFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorAccent"

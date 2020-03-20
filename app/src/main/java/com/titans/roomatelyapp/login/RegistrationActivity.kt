@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -26,30 +27,52 @@ class RegistrationActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
-        val reenterPass = findViewById<EditText>(R.id.reg_reenter_pass).text.toString()
+        val nameField = findViewById<EditText>(R.id.reg_first_name)
+        val emailField = findViewById<EditText>(R.id.reg_email)
+        val passField = findViewById<EditText>(R.id.reg_pass)
+        val reenterPassField = findViewById<EditText>(R.id.reg_reenter_pass)
         val phoneRegButton = findViewById<Button>(R.id.reg_phone_button)
         val emailRegButton = findViewById<Button>(R.id.reg_email_button)
-                phoneRegButton.setOnClickListener {
+
+        /* Hide keyboard whenever user selects screen. */
+        nameField.setOnFocusChangeListener { view, b ->
+            if (!b) hideKeyBoard(view)
+        }
+        emailField.setOnFocusChangeListener { view, b ->
+            if (!b) hideKeyBoard(view)
+        }
+        passField.setOnFocusChangeListener { view, b ->
+            if (!b) hideKeyBoard(view)
+        }
+        reenterPassField.setOnFocusChangeListener { view, b ->
+            if (!b) hideKeyBoard(view)
+        }
+
+        /* Navigate back to login. */
+        val navToLogin = findViewById<TextView>(R.id.login_link)
+        navToLogin.setOnClickListener{v ->
+            startActivity(Intent(v.context, LoginActivity::class.java))
+        }
+
+        /* TODO: Extract phone number and register. */
+        phoneRegButton.setOnClickListener {
 
         }
 
+        /* Code to register with email. */
         emailRegButton.setOnClickListener {
-            val name = findViewById<EditText>(R.id.reg_first_name).text.toString()
-            val email = findViewById<EditText>(R.id.reg_email).text.toString()
-            val password = findViewById<EditText>(R.id.reg_pass).text.toString()
+            val name = nameField.text.toString()
+            val email = emailField.text.toString()
+            val password = passField.text.toString()
+            val reenterPass = reenterPassField.text.toString()
 
             authUser.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = authUser.currentUser
                         val profile = Profile(user?.uid.toString(), name, email, password, null)
-
                         addProfile(profile)
-                        Toast.makeText(baseContext, "SUCCESS KEEP WINNING.",
-                            Toast.LENGTH_SHORT).show()
                         startActivity(Intent(emailRegButton.context, MainActivity::class.java))
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -58,7 +81,30 @@ class RegistrationActivity : AppCompatActivity()
                     }
                 }
         }
+    }
 
+    /**
+     * @param email string pulled from email field.
+     * @return Boolean indicating pass or fail.
+     */
+    private fun checkEmail(email: String): Boolean {
+        if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
+            findViewById<EditText>(R.id.reg_email).error = "Please enter a valid email address."
+            return false
+        }
+        else return true
+    }
+
+    /**
+     * @param pass string pulled from password field.
+     * @return Boolean indicating pass or fail.
+     */
+    private fun checkPassword(pass: String): Boolean {
+        if (pass.isEmpty()) {
+            findViewById<EditText>(R.id.reg_email).error = "Please enter a password."
+            return false
+        }
+        else return true
     }
 
     private fun addProfile(p: Profile) {
@@ -67,7 +113,7 @@ class RegistrationActivity : AppCompatActivity()
     }
 
     /**
-     * @param view view containing the keyboard.
+     * @param view view holding the keyboard.
      * InputMethodManager is implemented to hide keyboard.
      */
     private fun hideKeyBoard(view: View) {

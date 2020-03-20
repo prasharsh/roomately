@@ -3,6 +3,8 @@ package com.titans.roomatelyapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.view.menu.ActionMenuItemView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.titans.roomatelyapp.MainWindowTabs.Dashboard
 import com.titans.roomatelyapp.MainWindowTabs.Groups
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
+
+        /* Navigate to profile page */
+        val profileButton = findViewById<ActionMenuItemView>(R.id.userAccount)
+        profileButton.setOnClickListener {
+            startActivity(Intent(profileButton.context, ProfilePage::class.java))
+        }
 
         var sectionPageAdapter=SectionPageAdapter(supportFragmentManager)
         sectionPageAdapter.addPage(Dashboard(),"Dashboard")
@@ -34,5 +42,4 @@ class MainActivity : AppCompatActivity()
             startActivity(intent)
         }
     }
-
 }
