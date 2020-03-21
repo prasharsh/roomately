@@ -7,10 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -44,39 +41,32 @@ class ItemsActivity: AppCompatActivity()
         saveBtn = findViewById(R.id.saveItemFloatingButton)
         backButton = findViewById<ImageButton>(R.id.backButton)
         backButton?.setOnClickListener { _ -> onBackPressed() }
+        val txtToolbarLabel = findViewById<TextView>(R.id.txtToolbarLabel)
+        txtToolbarLabel.text = getString(R.string.add_item)
         checkValues()
-        
-        /* Code for adding item to Firebase */
+
         saveBtn.setOnClickListener {
-            val name: String? = findViewById<EditText>(R.id.ETProductName).text.toString()
-
-            /* Check if user forgot product name */
-            if (name == null || name == "") {
-                findViewById<EditText>(R.id.ETProductName).error = "Please enter an item name."
-            }
-            else {
-                val desc: String? = findViewById<EditText>(R.id.ETDesc).text.toString()
-                val location: String? = findViewById<EditText>(R.id.ETProductLocation).text.toString()
-                val lowStock = findViewById<Switch>(R.id.switchToggle).isChecked
-                val item = Item(name, desc, lowStock, location)
-                Toast.makeText(baseContext, "else statement",
-                    Toast.LENGTH_SHORT).show()
-
-                val ref = FirebaseFirestore.getInstance().collection("profiles")
-                    .document(user?.uid.toString()).collection("items").document(name)
-
-                ref.set(item)
-                finish()
-            }
+            saveData()
         }
     }
 
     private fun saveData() {
-        if(productName?.text?.length==0 || productDesc?.text?.length==0|| productCategory?.text?.length==0){
+        if (productName?.text?.length==0 || productDesc?.text?.length==0
+            || productCategory?.text?.length==0) {
             showError()
             Toast.makeText(baseContext, "Provide name / desc / category details", Toast.LENGTH_SHORT).show()
         }
-        else{
+        else {
+            /* Code for adding item to Firebase */
+            val name: String = findViewById<EditText>(R.id.ETProductName).text.toString()
+            val desc: String? = findViewById<EditText>(R.id.ETDesc).text.toString()
+            val location: String? = findViewById<EditText>(R.id.ETProductLocation).text.toString()
+            val lowStock = findViewById<Switch>(R.id.switchStockStatus).isChecked
+            val item = Item(name, desc, lowStock, location)
+            val ref = FirebaseFirestore.getInstance().collection("profiles")
+                .document(user?.uid.toString()).collection("items").document(name)
+            ref.set(item)
+            finish()
             Toast.makeText(baseContext, "Data Saved!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -178,6 +168,7 @@ class ItemsActivity: AppCompatActivity()
         })
     }
 
+    /* Hide keyboard when user touches outside of EditText. */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus

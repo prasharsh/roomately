@@ -1,10 +1,13 @@
 package com.titans.roomatelyapp.login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -34,20 +37,6 @@ class RegistrationActivity : AppCompatActivity()
         val reenterPassField = findViewById<EditText>(R.id.reg_reenter_pass)
         val phoneRegButton = findViewById<Button>(R.id.reg_phone_button)
         val emailRegButton = findViewById<Button>(R.id.reg_email_button)
-
-        /* Hide keyboard whenever user selects screen. */
-        nameField.setOnFocusChangeListener { view, b ->
-            if (!b) hideKeyBoard(view)
-        }
-        emailField.setOnFocusChangeListener { view, b ->
-            if (!b) hideKeyBoard(view)
-        }
-        passField.setOnFocusChangeListener { view, b ->
-            if (!b) hideKeyBoard(view)
-        }
-        reenterPassField.setOnFocusChangeListener { view, b ->
-            if (!b) hideKeyBoard(view)
-        }
 
         /* Navigate back to login. */
         val navToLogin = findViewById<TextView>(R.id.login_link)
@@ -96,10 +85,6 @@ class RegistrationActivity : AppCompatActivity()
      * @return Boolean indicating pass or fail.
      */
     private fun checkEmail(email: String): Boolean {
-        /*if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
-            findViewById<EditText>(R.id.reg_email).error = "Please enter a valid email address."
-            return false
-        }*/
         if (TextUtils.isEmpty(email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             findViewById<EditText>(R.id.reg_email).error = "Please enter a valid email address."
             return false
@@ -133,12 +118,20 @@ class RegistrationActivity : AppCompatActivity()
         ref.set(p)
     }
 
-    /**
-     * @param view view holding the keyboard.
-     * InputMethodManager is implemented to hide keyboard.
-     */
-    private fun hideKeyBoard(view: View) {
-        val inputManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+    /* Hide keyboard when user touches outside of EditText. */
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 }
