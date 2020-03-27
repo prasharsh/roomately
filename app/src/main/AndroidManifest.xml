@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.titans.roomatelyapp">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfilePage"></activity>
+        <activity android:name=".barcodeReader.BarcodeReaderActivity" />
+        <activity android:name=".ProfilePage" />
         <activity android:name=".login.RegistrationActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".LowStockItems" />
