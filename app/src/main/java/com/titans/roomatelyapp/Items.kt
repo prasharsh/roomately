@@ -3,6 +3,8 @@ package com.titans.roomatelyapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -32,8 +34,14 @@ class Items : AppCompatActivity()
         txtToolbarLabel.text = "Group Name"+" > Items"
 
         var adapter = CategoryListAdapter(this,getData())
+
+        var animation = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_animation_fall_down)
+        categoryList.layoutAnimation = animation
+        categoryList.scheduleLayoutAnimation()
+
         categoryList.adapter = adapter
         categoryList.layoutManager = LinearLayoutManager(this)
+
 
         navToAddItem.setOnClickListener{v ->
             startActivity(Intent(v.context, ItemsActivity::class.java))}
