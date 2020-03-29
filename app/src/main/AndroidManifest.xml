@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfilePage"></activity>
+        <activity android:name=".barcodeReader.BarcodeReaderActivity" />
+        <activity android:name=".ProfilePage" />
         <activity android:name=".login.RegistrationActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".LowStockItems" />

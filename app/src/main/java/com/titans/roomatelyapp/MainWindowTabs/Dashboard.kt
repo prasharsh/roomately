@@ -11,9 +11,12 @@ import com.titans.roomatelyapp.Items
 import com.titans.roomatelyapp.LowStockItems
 import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.Transactions
+import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 
 class Dashboard: Fragment()
 {
+    private val BARCODE_READER_ACTIVITY_REQUEST = 1208
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +28,7 @@ class Dashboard: Fragment()
         var cardItems = view.findViewById<CardView>(R.id.cardItems)
         var cardLowStock = view.findViewById<CardView>(R.id.cardLowStock)
         var cardTransaction = view.findViewById<CardView>(R.id.cardTransaction)
+        var cardBarcodeScanner = view.findViewById<CardView>(R.id.cardBarcodeScanner)
 
         cardItems.setOnClickListener{v ->
             startActivity(Intent(view.context, Items::class.java))
@@ -38,6 +42,11 @@ class Dashboard: Fragment()
             startActivity(Intent(view.context, Transactions::class.java))
         }
 
-        return view;
+        cardBarcodeScanner.setOnClickListener {
+            val launchIntent: Intent = BarcodeReaderActivity.getLaunchIntent(view.context, true, false)
+            startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST)
+        }
+
+        return view
     }
 }
