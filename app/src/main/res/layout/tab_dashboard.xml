@@ -53,31 +53,30 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/cardItems"
-                android:layout_weight="1"
-                style="@style/DashboardCards">
+                style="@style/DashboardCards"
+                android:layout_width="match_parent"
+                android:layout_height="159dp"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_margin="15sp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_margin="15sp">
 
                     <ImageView
                         android:id="@+id/iconItems"
-                        android:background="@drawable/items"
                         style="@style/DashboardCardImages"
+                        android:background="@drawable/items"
 
                         />
 
                     <TextView
-                        android:layout_below="@id/iconItems"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="Items"
                         style="@style/DashboardCardLables"
-                        />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iconItems"
+                        android:text="Items" />
 
                 </RelativeLayout>
 
