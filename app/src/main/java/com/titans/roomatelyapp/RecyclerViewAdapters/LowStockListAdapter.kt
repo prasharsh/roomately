@@ -96,7 +96,6 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
     fun updateDatabase(item: LowItem)
     {
 
-        var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
         if(Data.selectedGroup.equals("Self"))
         {
             var update = hashMapOf(
@@ -112,7 +111,7 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
-                        .document(timeStamp).set(t)
+                        .document(Data.getTimeStamp()).set(t)
 
                     lowStockItems.remove(item)
                     notifyDataSetChanged()
@@ -134,7 +133,7 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1])
-                        .collection("transactions").document(timeStamp).set(t)
+                        .collection("transactions").document(Data.getTimeStamp()).set(t)
 
                     lowStockItems.remove(item)
                     notifyDataSetChanged()

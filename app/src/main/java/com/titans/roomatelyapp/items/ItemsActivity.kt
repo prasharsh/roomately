@@ -60,7 +60,6 @@ class ItemsActivity: AppCompatActivity()
             var i = hashMapOf(name to item)
 
 
-            var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
 
             if(Data.selectedGroup.equals("Self"))
             {
@@ -76,7 +75,7 @@ class ItemsActivity: AppCompatActivity()
                         )
 
                         Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
-                            .document(timeStamp).set(transaction)
+                            .document(Data.getTimeStamp()).set(transaction)
 
                         Toast.makeText(this,"Item Added",Toast.LENGTH_LONG).show()
                         onBackPressed()}
@@ -96,7 +95,7 @@ class ItemsActivity: AppCompatActivity()
                         )
 
                         Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("transactions")
-                            .document(timeStamp).set(transaction)
+                            .document(Data.getTimeStamp()).set(transaction)
 
                         Toast.makeText(this,"Item Added",Toast.LENGTH_LONG).show()
                         onBackPressed()}

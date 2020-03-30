@@ -16,6 +16,9 @@ import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.DataModels.User
 import com.titans.roomatelyapp.RecyclerViewAdapters.GroupListAdapter
 import com.titans.roomatelyapp.RecyclerViewAdapters.InvitationListAdapter
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Data {
     companion object
@@ -86,6 +89,11 @@ class Data {
             {
                 groups.add(group.split(CONCAT)[1])
             }
+        }
+
+        fun getTimeStamp(): String
+        {
+            return SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
         }
 
 

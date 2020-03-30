@@ -86,7 +86,6 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
         adapter.lowStockItems.add(item)
         adapter.notifyDataSetChanged()
 
-        var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
 
         if(Data.selectedGroup.equals("Self"))
         {
@@ -103,7 +102,7 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
-                        .document(timeStamp).set(t)
+                        .document(Data.getTimeStamp()).set(t)
 
                     inStockItems.remove(item)
                     notifyDataSetChanged()
@@ -125,7 +124,7 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1])
-                        .collection("transactions").document(timeStamp).set(t)
+                        .collection("transactions").document(Data.getTimeStamp()).set(t)
 
                     inStockItems.remove(item)
                     notifyDataSetChanged()
