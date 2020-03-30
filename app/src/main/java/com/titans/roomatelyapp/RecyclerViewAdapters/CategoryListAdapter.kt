@@ -62,7 +62,7 @@ class CategoryListAdapter: RecyclerView.Adapter<CategoryListAdapter.ViewHolder>
             }
         }
 
-        var itemsAdapter = ItemListAdapter(ctx,categoryList[position].items)
+        var itemsAdapter = ItemListAdapter(ctx,categoryList[position].items,categoryList[position].title)
 
         holder.itemList.adapter = itemsAdapter
         holder.itemList.layoutManager = LinearLayoutManager(ctx)

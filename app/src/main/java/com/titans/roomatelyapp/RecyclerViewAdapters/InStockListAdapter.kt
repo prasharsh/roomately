@@ -18,21 +18,25 @@ import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.DataModels.Category
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.DataModels.Transaction
-import com.titans.roomatelyapp.LowStockItems
 import com.titans.roomatelyapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
+class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
 {
     var ctx: Context
-    var lowStockItems: ArrayList<LowItem>
+    var inStockItems: ArrayList<LowStockListAdapter.LowItem>
+    var adapter: LowStockListAdapter
 
-    constructor(ctx: Context, lowStockItems: ArrayList<LowItem>) : super()
-    {
+    constructor(
+        ctx: Context,
+        lowStockItems: ArrayList<LowStockListAdapter.LowItem>,
+        adapter: LowStockListAdapter
+    ) : super() {
         this.ctx = ctx
-        this.lowStockItems = lowStockItems
+        this.inStockItems = lowStockItems
+        this.adapter = adapter
     }
 
 
@@ -44,8 +48,8 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
 
     override fun getItemCount(): Int
     {
-        Log.e("TAG","List size: "+lowStockItems.size)
-        return lowStockItems.size
+        Log.e("TAG","List size: "+inStockItems.size)
+        return inStockItems.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
@@ -63,40 +67,27 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
 
             override fun onAnimationEnd(animation: Animation?)
             {
-                updateDatabase(lowStockItems[position])
+                updateDatabase(inStockItems[position])
             }
         })
-        holder.txtItem.text = lowStockItems[position].item.name
-        holder.txtCat.text = lowStockItems[position].cat.title
+        holder.txtItem.text = inStockItems[position].item.name
+        holder.txtCat.text = inStockItems[position].cat.title
 
+        holder.removeItem.setImageDrawable(ctx.getDrawable(R.drawable.add))
         holder.removeItem.setOnClickListener { v ->
 
-            var alert = AlertDialog.Builder(ctx)
-            alert.setTitle("Alert")
-            alert.setMessage("Item will be set as In-Stock")
-            alert.setIcon(R.drawable.low_stock)
-            alert.setPositiveButton("Remove",object : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int)
-                {
-                    lowStockItems[position].item.inStock = true
-                    holder.parent.startAnimation(animation)
-                }
-            })
-
-            alert.setNegativeButton("Cancel",object : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int)
-                {
-                }
-            })
-
-            alert.show()
+            inStockItems[position].item.inStock = false
+            holder.parent.startAnimation(animation)
         }
     }
 
-    fun updateDatabase(item: LowItem)
+    fun updateDatabase(item: LowStockListAdapter.LowItem)
     {
+        adapter.lowStockItems.add(item)
+        adapter.notifyDataSetChanged()
 
         var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+
         if(Data.selectedGroup.equals("Self"))
         {
             var update = hashMapOf(
@@ -107,14 +98,14 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
                 .addOnSuccessListener { void ->
 
                     var t = Transaction(
-                        title = item.item.name+ " back in stock",
+                        title = item.item.name+ " low stock",
                         subTitle = "Marked By: "+Data.currentUser.name,
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
                         .document(timeStamp).set(t)
 
-                    lowStockItems.remove(item)
+                    inStockItems.remove(item)
                     notifyDataSetChanged()
                 }
         }
@@ -129,14 +120,14 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
                 .addOnSuccessListener { void ->
 
                     var t = Transaction(
-                        title = item.item.name+ " back in stock",
+                        title = item.item.name+ " low stock",
                         subTitle = "Marked By: "+Data.currentUser.name,
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1])
                         .collection("transactions").document(timeStamp).set(t)
 
-                    lowStockItems.remove(item)
+                    inStockItems.remove(item)
                     notifyDataSetChanged()
                 }
         }
@@ -156,17 +147,6 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
             txtItem = itemView.findViewById(R.id.txtItem)
             txtCat = itemView.findViewById(R.id.txtCategory)
             removeItem = itemView.findViewById(R.id.removeItem)
-        }
-    }
-
-    class LowItem
-    {
-        val item:Item
-        val cat: Category
-
-        constructor(item: Item, cat: Category) {
-            this.item = item
-            this.cat = cat
         }
     }
 }

@@ -4,11 +4,10 @@ package com.titans.roomatelyapp.DataModels
 class Category
 {
     lateinit var title:String
-    var items: List<Item> = ArrayList<Item>()
+    var items= ArrayList<Item>()
 
-    constructor(title: String, items: List<Item>)
+    constructor(title: String)
     {
         this.title = title
-        this.items = items
     }
 }

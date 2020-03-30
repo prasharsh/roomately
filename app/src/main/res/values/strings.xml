@@ -6,7 +6,7 @@
     <string name="email_login_explain">Enter email address and password to login</string>
     <string name="reg_prompt">Not a member? Register here.</string>
     <string name="registration_header">Registration</string>
-    <string name="reg_button">Register With Email</string>
+    <string name="reg_button">Register</string>
     <string name="login_prompt">Back to login.</string>
     <string name="or_login">OR</string>
     <string name="reg_name">Your Name</string>
@@ -42,4 +42,11 @@
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="grant">GRANT</string>
     <string name="cancel">CANCEL</string>
+    <string name="pass_constraint">
+        Password Must Be:
+            \n\t- 8 to 20 Characters Long
+            \n\t- Containing atleast 1 Uppercase Letter
+            \n\t- Containing atleast 1 Lowercase Letter
+            \n\t- Containing atleast 1 Number
+    </string>
 </resources>

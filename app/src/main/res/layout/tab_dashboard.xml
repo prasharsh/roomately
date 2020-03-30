@@ -7,21 +7,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3"
+        android:weightSum="4"
         android:id="@+id/cards"
         android:padding="20sp"
-        android:layout_marginTop="40sp"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -44,7 +34,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/iconCamera"
                         android:text="Barcode Scanner"
                         style="@style/DashboardCardLables"/>
 
@@ -72,7 +61,6 @@
                         />
 
                     <TextView
-                        android:layout_below="@id/iconItems"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:text="Items"
@@ -82,17 +70,6 @@
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
 
 
             <androidx.cardview.widget.CardView
@@ -115,7 +92,6 @@
                         />
 
                     <TextView
-                        android:layout_below="@id/iconLowStock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Low Stock"
@@ -145,7 +121,6 @@
                         />
 
                     <TextView
-                        android:layout_below="@id/iconTransaction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Transactions"
@@ -156,54 +131,185 @@
             </androidx.cardview.widget.CardView>
 
 
-        </LinearLayout>
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardProjection"
-            android:layout_weight="1"
-            style="@style/DashboardCards">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_margin="15sp"
-                android:layout_height="match_parent">
-
-
-                <TextView
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Projections"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="#000"/>
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:text="Total Products:"
-        android:layout_marginTop="40sp"
-        android:id="@+id/txtTotalProducts"
-        app:layout_constraintTop_toBottomOf="@id/cards"
-        style="@style/DashboardStatusText"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Low Stock Products:"
-        android:layout_marginTop="10sp"
-        app:layout_constraintTop_toBottomOf="@id/txtTotalProducts"
-        android:textColor="@android:color/holo_red_light"
-        style="@style/DashboardStatusText"/>
+
+    <!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:weightSum="3"-->
+<!--        android:id="@+id/cards"-->
+<!--        android:padding="20sp"-->
+<!--        android:layout_marginTop="40sp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:id="@+id/cardBarcodeScanner"-->
+<!--                style="@style/DashboardCards">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_margin="15sp"-->
+<!--                    android:layout_height="match_parent">-->
+
+<!--                    <ImageView-->
+<!--                        style="@style/DashboardCardImages"-->
+<!--                        android:background="@drawable/camera"-->
+<!--                        android:id="@+id/iconCamera"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_below="@id/iconCamera"-->
+<!--                        android:text="Barcode Scanner"-->
+<!--                        style="@style/DashboardCardLables"/>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/cardItems"-->
+<!--                android:layout_weight="1"-->
+<!--                style="@style/DashboardCards">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_margin="15sp"-->
+<!--                    android:layout_height="match_parent">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/iconItems"-->
+<!--                        android:background="@drawable/items"-->
+<!--                        style="@style/DashboardCardImages"-->
+
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_below="@id/iconItems"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:text="Items"-->
+<!--                        style="@style/DashboardCardLables"-->
+<!--                        />-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+<!--            -->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:id="@+id/cardLowStock"-->
+<!--                style="@style/DashboardCards">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_margin="15sp"-->
+<!--                    android:layout_height="match_parent">-->
+
+<!--                    <ImageView-->
+<!--                        style="@style/DashboardCardImages"-->
+<!--                        android:background="@drawable/low_stock"-->
+<!--                        android:id="@+id/iconLowStock"-->
+
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_below="@id/iconLowStock"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Low Stock"-->
+<!--                        style="@style/DashboardCardLables"/>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:id="@+id/cardTransaction"-->
+<!--                style="@style/DashboardCards">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_margin="15sp"-->
+<!--                    android:layout_height="match_parent">-->
+
+<!--                    <ImageView-->
+<!--                        style="@style/DashboardCardImages"-->
+<!--                        android:background="@drawable/transaction"-->
+<!--                        android:id="@+id/iconTransaction"-->
+
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_below="@id/iconTransaction"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Transactions"-->
+<!--                        style="@style/DashboardCardLables"/>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--        </LinearLayout>-->
+
+
+
+<!--    </LinearLayout>-->
+    
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="#000"-->
+<!--        android:text="Total Products:"-->
+<!--        android:layout_marginTop="40sp"-->
+<!--        android:id="@+id/txtTotalProducts"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cards"-->
+<!--        style="@style/DashboardStatusText"/>-->
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Low Stock Products:"-->
+<!--        android:layout_marginTop="10sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/txtTotalProducts"-->
+<!--        android:textColor="@android:color/holo_red_light"-->
+<!--        style="@style/DashboardStatusText"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

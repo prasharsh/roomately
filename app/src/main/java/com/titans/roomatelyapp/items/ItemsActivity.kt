@@ -13,159 +13,211 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.titans.roomatelyapp.Data
+import com.titans.roomatelyapp.DataModels.Item
+import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.R
-import com.titans.roomatelyapp.model.Item
+import kotlinx.android.synthetic.main.actionbar.*
 import kotlinx.android.synthetic.main.activity_item_crud.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ItemsActivity: AppCompatActivity()
 {
-    private var productName: EditText?= null
-    private var productDesc: EditText?= null
-    private var productCategory: EditText?= null
-    private var switchStockStatus: Switch?= null
-    private var productLocation: EditText?= null
-    lateinit var backButton: ImageButton
-    lateinit var saveBtn: FloatingActionButton
-    private val user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_crud)
 
-        productName = findViewById(R.id.ETProductName)
-        productDesc = findViewById(R.id.ETDesc)
-        productCategory = findViewById(R.id.ETProductCategory)
-        switchStockStatus = findViewById(R.id.switchStockStatus)
-        productLocation = findViewById(R.id.ETProductLocation)
-        saveBtn = findViewById(R.id.saveItemFloatingButton)
-        backButton = findViewById<ImageButton>(R.id.backButton)
-        backButton?.setOnClickListener { _ -> onBackPressed() }
-        val txtToolbarLabel = findViewById<TextView>(R.id.txtToolbarLabel)
-        txtToolbarLabel.text = getString(R.string.add_item)
+        backButton.setOnClickListener { _ -> onBackPressed() }
+        txtToolbarLabel.text = Data.selectedGroup+" > "+getString(R.string.add_item)
         checkValues()
 
-        saveBtn.setOnClickListener {
+        saveItemFloatingButton.setOnClickListener {
             saveData()
         }
     }
 
     private fun saveData() {
-        if (productName?.text?.length==0 || productDesc?.text?.length==0
-            || productCategory?.text?.length==0) {
+        if (ETProductName.text.length==0 || ETDesc.text.length==0 || ETProductCategory.text.length==0)
+        {
             showError()
             Toast.makeText(baseContext, "Provide name / desc / category details", Toast.LENGTH_SHORT).show()
         }
         else {
             /* Code for adding item to Firebase */
-            val name: String = findViewById<EditText>(R.id.ETProductName).text.toString()
-            val desc: String? = findViewById<EditText>(R.id.ETDesc).text.toString()
-            val location: String? = findViewById<EditText>(R.id.ETProductLocation).text.toString()
-            val lowStock = findViewById<Switch>(R.id.switchStockStatus).isChecked
-            val item = Item(name, desc, lowStock, location)
-            val ref = FirebaseFirestore.getInstance().collection("profiles")
-                .document(user?.uid.toString()).collection("items").document(name)
-            ref.set(item)
-            finish()
-            Toast.makeText(baseContext, "Data Saved!", Toast.LENGTH_SHORT).show()
+            val name: String = ETProductName.text.toString()
+            val desc: String = ETDesc.text.toString()
+            val status = checkStatus.isChecked
+            val category = ETProductCategory.text.toString()
+            var barcode = txtBarcode.text.toString()
+
+            val item = Item(name=name,desc = desc,locations = ArrayList<String>(),inStock = status,barcodes = getBarcodes(barcode))
+
+            var i = hashMapOf(name to item)
+
+
+            var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+
+            if(Data.selectedGroup.equals("Self"))
+            {
+                Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items").document(category).set(i,
+                        SetOptions.merge())
+                    .addOnSuccessListener { void ->
+
+
+                        var transaction = Transaction(
+                            title = "Item Added: "+name,
+                            subTitle = "Added By : "+Data.currentUser.name,
+                            date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+                        )
+
+                        Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
+                            .document(timeStamp).set(transaction)
+
+                        Toast.makeText(this,"Item Added",Toast.LENGTH_LONG).show()
+                        onBackPressed()}
+                    .addOnFailureListener { exception -> Toast.makeText(this,"Error Adding Item",Toast.LENGTH_LONG).show() }
+
+            }
+            else
+            {
+                Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items").document(category).set(i,
+                        SetOptions.merge())
+                    .addOnSuccessListener { void ->
+
+                        var transaction = Transaction(
+                            title = "Item Added: "+name,
+                            subTitle = "Added By : "+Data.currentUser.name,
+                            date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+                        )
+
+                        Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("transactions")
+                            .document(timeStamp).set(transaction)
+
+                        Toast.makeText(this,"Item Added",Toast.LENGTH_LONG).show()
+                        onBackPressed()}
+                    .addOnFailureListener { exception -> Toast.makeText(this,"Error Adding Item",Toast.LENGTH_LONG).show() }
+            }
+
         }
     }
 
     private fun showError()
     {
-        if(productName?.text?.length==0){
-            productName?.error= "Product name cannot be blank."
+        if(ETProductName.text.length==0){
+            ETProductName.error= "Product name cannot be blank."
         }
-        if(productDesc?.text?.length==0){
-            productDesc?.error= "Product description cannot be blank."
+        if(ETDesc.text.length==0){
+            ETDesc.error= "Product description cannot be blank."
         }
-        if(productCategory?.text?.length==0){
-            productCategory?.error= "Product category cannot be blank."
+        if(ETProductCategory.text.length==0){
+            ETProductCategory.error= "Product category cannot be blank."
         }
     }
 
     private fun checkValues()
     {
-        productName!!.addTextChangedListener(object : TextWatcher
+        ETProductName.addTextChangedListener(object : TextWatcher
         {
-            override fun afterTextChanged(s: Editable?)
+            override fun afterTextChanged(s: Editable)
             {
                 if (s.isNullOrBlank())
                 {
-                    productName?.error = "Product name cannot be null"
+                    ETProductName.error = "Product name cannot be null"
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productName?.error = "Product name cannot be null"
+                    ETProductName.error = "Product name cannot be null"
                 }
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productName?.error = "Product name cannot be null"
+                    ETProductName.error = "Product name cannot be null"
                 }
             }
         })
 
-        productDesc!!.addTextChangedListener(object : TextWatcher
+        ETDesc.addTextChangedListener(object : TextWatcher
         {
-            override fun afterTextChanged(s: Editable?)
+            override fun afterTextChanged(s: Editable)
             {
                 if (s.isNullOrBlank())
                 {
-                    productDesc?.error = "Product description cannot be null"
+                    ETDesc.error = "Product description cannot be null"
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productDesc?.error = "Product description cannot be null"
+                    ETDesc.error = "Product description cannot be null"
                 }
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productDesc?.error = "Product description cannot be null"
+                    ETDesc.error = "Product description cannot be null"
                 }
             }
         })
 
-        productCategory!!.addTextChangedListener(object : TextWatcher
+        ETProductCategory.addTextChangedListener(object : TextWatcher
         {
-            override fun afterTextChanged(s: Editable?)
+            override fun afterTextChanged(s: Editable)
             {
                 if (s.isNullOrBlank())
                 {
-                    productCategory?.error = "Product category cannot be null"
+                    ETProductCategory.error = "Product category cannot be null"
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productCategory?.error = "Product category cannot be null"
+                    ETProductCategory.error = "Product category cannot be null"
                 }
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
             {
                 if (s.isNullOrBlank())
                 {
-                    productCategory?.error = "Product category cannot be null"
+                    ETProductCategory.error = "Product category cannot be null"
                 }
             }
         })
+    }
+
+    fun getBarcodes(barcodeString: String): ArrayList<String>
+    {
+        var barcodes = ArrayList<String>()
+
+        if(barcodeString.equals(""))
+            return barcodes
+
+        var barcodeArray = barcodeString.split("\n")
+
+        for(index in 1..barcodeArray.size-1)
+        {
+            barcodes.add(barcodeArray[index])
+        }
+
+        return barcodes
     }
 
     /* Hide keyboard when user touches outside of EditText. */
