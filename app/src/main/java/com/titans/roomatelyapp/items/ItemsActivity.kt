@@ -1,6 +1,7 @@
 package com.titans.roomatelyapp.items
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
@@ -11,11 +12,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.model.Item
-import kotlinx.android.synthetic.main.activity_item_crud.*
 
 class ItemsActivity: AppCompatActivity()
 {
@@ -23,7 +22,9 @@ class ItemsActivity: AppCompatActivity()
     private var productDesc: EditText?= null
     private var productCategory: EditText?= null
     private var switchStockStatus: Switch?= null
-    private var productLocation: EditText?= null
+    lateinit var addLocationBtn: FloatingActionButton
+    private var location: TextView?= null
+    private var productLocation: String? =null
     lateinit var backButton: ImageButton
     lateinit var saveBtn: FloatingActionButton
     private val user = FirebaseAuth.getInstance().currentUser
@@ -32,21 +33,29 @@ class ItemsActivity: AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_crud)
+        location = findViewById(R.id.tvLocation)
+        var intent = intent
+        productLocation = intent.getStringExtra("Name") +" - "+intent.getStringExtra("Address")
+        if(!(productLocation!!.contains("null")))
+        location?.text =productLocation
 
         productName = findViewById(R.id.ETProductName)
         productDesc = findViewById(R.id.ETDesc)
         productCategory = findViewById(R.id.ETProductCategory)
         switchStockStatus = findViewById(R.id.switchStockStatus)
-        productLocation = findViewById(R.id.ETProductLocation)
+        //productLocation = findViewById(R.id.ETProductLocation)
         saveBtn = findViewById(R.id.saveItemFloatingButton)
         backButton = findViewById<ImageButton>(R.id.backButton)
-        backButton?.setOnClickListener { _ -> onBackPressed() }
+        backButton.setOnClickListener { _ -> onBackPressed() }
         val txtToolbarLabel = findViewById<TextView>(R.id.txtToolbarLabel)
         txtToolbarLabel.text = getString(R.string.add_item)
         checkValues()
-
         saveBtn.setOnClickListener {
             saveData()
+        }
+        addLocationBtn = findViewById(R.id.addLocationBtn)
+        addLocationBtn!!.setOnClickListener{v ->
+            startActivity(Intent(v.context, LocationActivity::class.java))
         }
     }
 
@@ -60,9 +69,9 @@ class ItemsActivity: AppCompatActivity()
             /* Code for adding item to Firebase */
             val name: String = findViewById<EditText>(R.id.ETProductName).text.toString()
             val desc: String? = findViewById<EditText>(R.id.ETDesc).text.toString()
-            val location: String? = findViewById<EditText>(R.id.ETProductLocation).text.toString()
+           // val location: String? = findViewById<EditText>(R.id.ETProductLocation).text.toString()
             val lowStock = findViewById<Switch>(R.id.switchStockStatus).isChecked
-            val item = Item(name, desc, lowStock, location)
+            val item = Item(name, desc, lowStock, productLocation)
             val ref = FirebaseFirestore.getInstance().collection("profiles")
                 .document(user?.uid.toString()).collection("items").document(name)
             ref.set(item)
@@ -184,4 +193,8 @@ class ItemsActivity: AppCompatActivity()
         }
         return super.dispatchTouchEvent(event)
     }
+
+
+
+
 }

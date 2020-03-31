@@ -25,6 +25,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".LowStockItems" />
         <activity android:name=".items.ItemsActivity" />
+        <activity android:name=".items.LocationActivity"/>
         <activity android:name=".Items" />
         <activity android:name=".Transactions" />
         <activity android:name=".MainActivity">
@@ -34,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCpUagO6nAHRj3djRR9a22CQVCfJ0zXCLg"/>
+
     </application>
 
 </manifest>
