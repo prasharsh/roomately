@@ -325,6 +325,9 @@ class ProductDetailDialog: DialogFragment
         if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
             return
 
+        if(data==null)
+            return
+
         var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
 
         if(item.barcodes.contains(barcode))

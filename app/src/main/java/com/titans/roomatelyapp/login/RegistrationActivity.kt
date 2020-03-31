@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Bundle
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -21,6 +22,7 @@ import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.MainActivity
 import com.titans.roomatelyapp.R
 import kotlinx.android.synthetic.main.activity_registration.*
+import java.io.Serializable
 
 
 class RegistrationActivity : AppCompatActivity()
@@ -45,11 +47,21 @@ class RegistrationActivity : AppCompatActivity()
 
         /* Code to register with email. */
         regButton.setOnClickListener {
-            val name = nameField.text.toString()
+            val name = nameField.text.toString().trim()
             val password = passField.text.toString()
             val reenterPass = reenterPassField.text.toString()
-            val phone = phoneField.text.toString()
+            val phone = phoneField.text.toString().trim()
 
+            if(name.equals(""))
+            {
+                nameField.error = "Please enter name"
+                return@setOnClickListener
+            }
+//            if(userExists(phone))
+//            {
+//                phoneField.error = "Already Registered"
+//                return@setOnClickListener
+//            }
             /* Validate user input before processing. */
             if (checkPassword(password, reenterPass)) {
                 var user = hashMapOf(
@@ -59,15 +71,8 @@ class RegistrationActivity : AppCompatActivity()
                     "groups" to arrayListOf<String>(),
                     "invitations" to arrayListOf<String>()
                 )
-                    Data.db.collection("users").document(phone).set(user)
-                        .addOnSuccessListener { void ->
-                            getSharedPreferences(Data.SHAREDPREF, Context.MODE_PRIVATE).edit().putString(Data.SAVEDUSER,phone).commit()
-                            Toast.makeText(this,"Welcome",Toast.LENGTH_LONG).show()
-                            var i = Intent(this,MainActivity::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(i)
-                        }
-                        .addOnFailureListener { exception -> Toast.makeText(this,"Something Went Wrong",Toast.LENGTH_LONG).show() }
+
+                checkUserExistsAndCreateUser(user)
             }
         }
         readPhoneNumber()
@@ -135,6 +140,37 @@ class RegistrationActivity : AppCompatActivity()
             return false
         }
         else return true
+    }
+
+    private fun checkUserExistsAndCreateUser(user: HashMap<String,Serializable>)
+    {
+        Data.db.collection(Data.USERS).get()
+            .addOnSuccessListener { querySnapshot ->
+                for(doc in querySnapshot.documents)
+                {
+                    Log.e("TAG",doc.id)
+                    if(doc.id.equals(user[Data.USER_PHONE] as String))
+                    {
+                        reg_phone.error = "User Already Exists"
+                        Toast.makeText(this,"User Already Exists",Toast.LENGTH_LONG).show()
+                        return@addOnSuccessListener
+                    }
+                }
+                createUser(user)
+            }
+    }
+
+    private fun createUser(user: HashMap<String,Serializable>)
+    {
+        Data.db.collection("users").document(user[Data.USER_PHONE] as String).set(user)
+            .addOnSuccessListener { void ->
+                getSharedPreferences(Data.SHAREDPREF, Context.MODE_PRIVATE).edit().putString(Data.SAVEDUSER,user[Data.USER_PHONE] as String).commit()
+                Toast.makeText(this,"Welcome",Toast.LENGTH_LONG).show()
+                var i = Intent(this,MainActivity::class.java)
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(i)
+            }
+            .addOnFailureListener { exception -> Toast.makeText(this,"Something Went Wrong",Toast.LENGTH_LONG).show() }
     }
 
 

@@ -17,27 +17,9 @@ class Invitations : AppCompatActivity() {
 
         backButton.setOnClickListener { v -> onBackPressed() }
         txtToolbarLabel.text = "Invitations"
-        getInvitations()
+        Data.getInvitations(this)
         invitationList.adapter = Data.getInvitationAdapter(this)
         invitationList.layoutManager = LinearLayoutManager(this)
     }
 
-    fun getInvitations()
-    {
-        Data.db.collection(Data.USERS).document(Data.currentUser.phone).get()
-            .addOnSuccessListener { documentSnapshot ->
-                var list = documentSnapshot["invitations"]
-
-                if(list!=null) {
-                    for (invitation in (list as ArrayList<HashMap<String,String>>))
-                    {
-                        Data.invitations.add(Invitation(group = invitation["group"]!!,phone = invitation["phone"]!!))
-                    }
-                    Data.txtInvitations.value = list.size
-                }
-            }
-            .addOnFailureListener{exception ->
-                Toast.makeText(this,"Error Getting Invitations",Toast.LENGTH_LONG).show()
-            }
-    }
 }

@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:title="Edit Profile">
+        <menu>
+            <item
+                android:title="Edit Name"
+                android:icon="@drawable/edit"
+                android:iconTint="@android:color/darker_gray"
+                android:id="@+id/edit_name"/>
+
+            <item
+                android:title="Change Password"
+                android:icon="@drawable/edit"
+                android:iconTint="@android:color/darker_gray"
+                android:id="@+id/change_password"/>
+        </menu>
+    </item>
+
     <group>
         <item
-            android:title="Edit Profile"
-            android:id="@+id/edit_profile"/>
-
-        <item
             android:title="Delete Account"
+            android:icon="@drawable/delete"
+            android:iconTint="@android:color/darker_gray"
             android:id="@+id/delete_account"/>
     </group>
 </menu>

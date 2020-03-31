@@ -69,6 +69,7 @@
             android:layout_margin="10sp"
             app:helperText="@string/pass_constraint"
             android:layout_width="match_parent"
+            app:passwordToggleEnabled="true"
             android:layout_height="wrap_content"
             android:hint="@string/enter_password">
 
@@ -83,6 +84,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/reenter_pass_label"
             android:layout_margin="10sp"
+            app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/reenter_pass">

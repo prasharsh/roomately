@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
@@ -82,8 +83,33 @@ class Data {
             return invitationListAdapter as InvitationListAdapter
         }
 
+        fun getInvitations(ctx: Context) {
+            Log.e("TAG", "USER: ${currentUser.phone}")
+            db.collection(USERS).document(currentUser.phone).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    var list = documentSnapshot["invitations"]
+
+                    if (list != null) {
+                        invitations.clear()
+                        for (invitation in (list as ArrayList<HashMap<String, String>>)) {
+                            invitations.add(
+                                Invitation(
+                                    group = invitation["group"]!!,
+                                    phone = invitation["phone"]!!
+                                )
+                            )
+                        }
+                        txtInvitations.value = list.size
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(ctx, "Error Getting Invitations", Toast.LENGTH_LONG).show()
+                }
+        }
+
         fun createGroupList()
         {
+            groups.clear()
             groups.add("Self")
             for(group in currentUser.groups)
             {
@@ -94,6 +120,18 @@ class Data {
         fun getTimeStamp(): String
         {
             return SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
+        }
+
+        fun updateGroups()
+        {
+            db.collection(USERS).document(currentUser.phone).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    currentUser.groups = documentSnapshot.get(USER_GROUPS) as ArrayList<String>
+                    createGroupList()
+
+                    if(!groups.contains(selectedGroup))
+                        selectedGroup = "Self"
+                }
         }
 
 

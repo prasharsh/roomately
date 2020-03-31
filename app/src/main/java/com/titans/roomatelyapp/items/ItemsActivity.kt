@@ -39,6 +39,8 @@ class ItemsActivity: AppCompatActivity()
         txtToolbarLabel.text = Data.selectedGroup+" > "+getString(R.string.add_item)
         checkValues()
 
+        setBarcode()
+
         saveItemFloatingButton.setOnClickListener {
             saveData()
         }
@@ -210,9 +212,20 @@ class ItemsActivity: AppCompatActivity()
         })
     }
 
+    private fun setBarcode()
+    {
+        var barcode = intent.getStringExtra("barcode")
+
+        if(barcode!=null)
+            txtBarcode.setText(barcode)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
+            return
+
+        if(data==null)
             return
 
         var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
