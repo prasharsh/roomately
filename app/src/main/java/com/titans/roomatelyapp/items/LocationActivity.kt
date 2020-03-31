@@ -19,11 +19,17 @@ import java.util.*
 
 class LocationActivity : AppCompatActivity(){
 
+    private var productName: String? =null
+    private var productDesc: String? =null
+    private var productCategory: String? =null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_location)
         Places.initialize(applicationContext, getString(R.string.places_api))
-
+        var intent = intent
+        productName = intent.getStringExtra("productName")
+        productDesc = intent.getStringExtra("productDesc")
+        productCategory = intent.getStringExtra("productCategory")
         val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
 
@@ -34,9 +40,12 @@ class LocationActivity : AppCompatActivity(){
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 val intent = Intent(this@LocationActivity, ItemsActivity::class.java)
-                intent.putExtra("Name", place.name )
-                intent.putExtra("Address", place.address)
+                intent.putExtra("Name", ""+place.name )
+                intent.putExtra("Address", ""+place.address)
 
+                intent.putExtra("productName", ""+productName)
+                intent.putExtra("productCategory", ""+productCategory)
+                intent.putExtra("productDesc", ""+productDesc)
                 startActivity(intent)
                 }
 

@@ -47,6 +47,9 @@ class ItemsActivity: AppCompatActivity() {
 
         var intent = intent
         var productLocation = intent.getStringExtra("Name") + " - " + intent.getStringExtra("Address")
+        ETDesc.setText(intent.getStringExtra("productDesc"))
+        ETProductCategory.setText(intent.getStringExtra("productCategory"))
+        ETProductName.setText(intent.getStringExtra("productName"))
         if (!(productLocation!!.contains("null")))
             tvLocation.text = productLocation
 
@@ -55,8 +58,14 @@ class ItemsActivity: AppCompatActivity() {
 
         checkValues()
 
-        addLocationBtn!!.setOnClickListener { v ->
-            startActivity(Intent(v.context, LocationActivity::class.java))
+        addLocationBtn!!.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
+
+            intent.putExtra("productName", ""+ETProductName.text+"")
+            intent.putExtra("productCategory", ""+ETProductCategory.text+"")
+            intent.putExtra("productDesc", ""+ETDesc.text+"")
+
+            startActivity(intent)
         }
 
         backButton.setOnClickListener { _ -> onBackPressed() }
