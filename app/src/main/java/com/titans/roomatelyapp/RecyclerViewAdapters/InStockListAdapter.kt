@@ -119,7 +119,7 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
                 .addOnSuccessListener { void ->
 
                     var t = Transaction(
-                        title = item.item.name+ " low stock",
+                        title = item.item.name+ " set low stock",
                         subTitle = "Marked By: "+Data.currentUser.name,
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
