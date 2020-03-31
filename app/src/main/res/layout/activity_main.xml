@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -15,7 +16,6 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:background="@color/actionbar"
-                app:menu="@menu/appbar_menu"
                 android:id="@+id/toolbar"
                 android:layout_height="wrap_content">
 
@@ -53,14 +53,29 @@
 
     </RelativeLayout>
 
-
-
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:headerLayout="@layout/drawer_header"
         android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
         android:layout_gravity="start"
+        android:id="@+id/navigationView">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        android:id="@+id/navigationView"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/txtLogout"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="15sp"/>
+        </RelativeLayout>
+
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

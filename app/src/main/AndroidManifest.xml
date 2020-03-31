@@ -3,6 +3,9 @@
     package="com.titans.roomatelyapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -13,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Invitations"></activity>
+        <activity android:name=".Members" />
         <activity android:name=".barcodeReader.BarcodeReaderActivity" />
         <activity android:name=".ProfilePage" />
         <activity android:name=".login.RegistrationActivity" />

@@ -1,24 +1,30 @@
 package com.titans.roomatelyapp.RecyclerViewAdapters
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.R
+import com.titans.roomatelyapp.dialogs.ProductDetailDialog
 
 class ItemListAdapter:RecyclerView.Adapter<ItemListAdapter.ViewHolder>
 {
     lateinit var ctx:Context
-    var items: List<Item>
+    var items: ArrayList<Item>
+    var category: String
 
-    constructor(ctx: Context, items: List<Item>) : super()
-    {
+    constructor(ctx: Context, items: ArrayList<Item>, category: String) : super() {
         this.ctx = ctx
         this.items = items
+        this.category = category
     }
 
 
@@ -36,6 +42,11 @@ class ItemListAdapter:RecyclerView.Adapter<ItemListAdapter.ViewHolder>
             holder.itemStatusIcon.setImageResource(R.drawable.in_stock_green)
         else
             holder.itemStatusIcon.setImageResource(R.drawable.low_stock_red)
+
+        holder.parent.setOnClickListener { v ->
+            val productDialog = ProductDetailDialog(item = items[position],adapter = this)
+            productDialog.show((ctx as AppCompatActivity).supportFragmentManager,"Product Details")
+        }
     }
 
     override fun getItemCount(): Int
@@ -47,10 +58,12 @@ class ItemListAdapter:RecyclerView.Adapter<ItemListAdapter.ViewHolder>
     {
         lateinit var txtItem: TextView
         lateinit var itemStatusIcon: ImageView
+        var parent: CardView
         constructor(itemView: View) : super(itemView)
         {
-            txtItem = itemView.findViewById<TextView>(R.id.txtItem)
-            itemStatusIcon = itemView.findViewById<ImageView>(R.id.item_status_icon)
+            txtItem = itemView.findViewById(R.id.txtItem)
+            itemStatusIcon = itemView.findViewById(R.id.item_status_icon)
+            parent = itemView.findViewById(R.id.parent)
         }
     }
 }

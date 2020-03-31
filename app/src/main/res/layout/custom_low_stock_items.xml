@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Item"
+        android:textColor="@android:color/black"
+        android:layout_margin="10sp"
+        android:layout_marginEnd="35sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/txtItem"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:layout_margin="10sp"
+        android:layout_marginEnd="35sp"
+        app:layout_constraintTop_toBottomOf="@id/txtItem"
+        android:id="@+id/txtCategory"/>
+
+    <ImageView
+        android:layout_width="30sp"
+        android:layout_margin="10sp"
+        android:layout_height="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/remove"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/removeItem"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="5sp"
+        app:layout_constraintTop_toBottomOf="@id/txtCategory"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

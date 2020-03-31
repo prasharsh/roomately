@@ -17,6 +17,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.titans.roomatelyapp.Data
+import com.titans.roomatelyapp.DataModels.User
 import com.titans.roomatelyapp.MainActivity
 import com.titans.roomatelyapp.R
 
@@ -29,11 +31,10 @@ class LoginActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val phoneLoginButton = findViewById<Button>(R.id.phone_login_button)
-        val emailLoginButton = findViewById<Button>(R.id.login_email_button)
+        val phoneLoginButton = findViewById<Button>(R.id.loginButton)
         val navToReg = findViewById<TextView>(R.id.registrationLink)
-        val emailField = findViewById<EditText>(R.id.login_email_field)
-        val passField = findViewById<EditText>(R.id.login_pass_field)
+        val phoneField = findViewById<EditText>(R.id.inputPhoneNumber)
+        val passField = findViewById<EditText>(R.id.inputPassword)
 
         /* Navigate to registration. */
         navToReg.setOnClickListener{v ->
@@ -41,28 +42,36 @@ class LoginActivity : AppCompatActivity()
         }
 
         /* Process login attempt. */
-        emailLoginButton.setOnClickListener {
-            if (emailField.text.isEmpty()) emailField.error = "Please enter an email address."
-            else if (passField.text.isEmpty()) passField.error = "Please enter a password"
-            else {
-                val email = emailField.text.toString()
+        phoneLoginButton.setOnClickListener {
+            if (phoneField.text.isEmpty()) phoneField.error = "Please Enter Phone Number"
+            else if (passField.text.isEmpty()) passField.error = "Please Enter Password"
+            else
+            {
+                val phone = phoneField.text.toString().trim()
                 val password = passField.text.toString()
-                authUser.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success")
-                            val user = authUser.currentUser
-                            startActivity(Intent(emailField.context, MainActivity::class.java))
+
+                Data.db.collection(Data.USERS).document(phone).get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if(password.equals(documentSnapshot.getString(Data.USER_PASS)))
+                        {
+                            Data.currentUser = User(
+                                name = documentSnapshot.getString(Data.USER_NAME)!!,
+                                phone = phone,
+                                groups = documentSnapshot.get(Data.USER_GROUPS) as ArrayList<String>
+                            )
+
+                            var editor = getSharedPreferences(Data.SHAREDPREF,Context.MODE_PRIVATE).edit()
+                            editor.putString(Data.SAVEDUSER,phone)
+                            editor.commit()
+
+                            var i = Intent(this,MainActivity::class.java)
+                            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(i)
                         }
-                        else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        else
+                        {
+                            passField.error = "Invalid Password"
+                            phoneField.error = "Invalid Username"
                         }
                     }
             }

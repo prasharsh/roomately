@@ -33,33 +33,34 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
     {
-        holder.txtProduct.text = transactions[position].prodcut.name
+        holder.txtTitle.text = transactions[position].title
+        holder.txtSubTitle.text = transactions[position].subTitle
         holder.txtDate.text = transactions[position].date
 
-        if(transactions[position].action == Transaction.IN_STOCK)
-        {
-            holder.txtUser.text="Marked in-stock by "+transactions[position].user
-            holder.txtUser.setTextColor(ctx.resources.getColor(R.color.green))
-            holder.txtProduct.setTextColor(ctx.resources.getColor(R.color.green))
-        }
-        else
-        {
-            holder.txtUser.text="Marked low-stock by "+transactions[position].user
-            holder.txtUser.setTextColor(ctx.resources.getColor(R.color.red))
-            holder.txtProduct.setTextColor(ctx.resources.getColor(R.color.red))
-        }
+//        if(transactions[position].action == Transaction.IN_STOCK)
+//        {
+//            holder.txtUser.text="Marked in-stock by "+transactions[position].user
+//            holder.txtUser.setTextColor(ctx.resources.getColor(R.color.green))
+//            holder.txtProduct.setTextColor(ctx.resources.getColor(R.color.green))
+//        }
+//        else
+//        {
+//            holder.txtUser.text="Marked low-stock by "+transactions[position].user
+//            holder.txtUser.setTextColor(ctx.resources.getColor(R.color.red))
+//            holder.txtProduct.setTextColor(ctx.resources.getColor(R.color.red))
+//        }
     }
 
     class ViewHolder:RecyclerView.ViewHolder
     {
-        var txtProduct: TextView
-        var txtUser: TextView
+        var txtTitle: TextView
+        var txtSubTitle: TextView
         var txtDate: TextView
 
         constructor(itemView: View) : super(itemView)
         {
-            this.txtProduct = itemView.findViewById(R.id.txtProduct)
-            this.txtUser = itemView.findViewById(R.id.txtUser)
+            this.txtTitle = itemView.findViewById(R.id.txtTitle)
+            this.txtSubTitle = itemView.findViewById(R.id.txtSubTitle)
             this.txtDate = itemView.findViewById(R.id.txtDate)
         }
     }

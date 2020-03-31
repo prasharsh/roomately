@@ -41,7 +41,7 @@ class LocationActivity : AppCompatActivity(){
                 }
 
             override fun onError(status: Status) {
-                Toast.makeText(applicationContext,"An error occurred: $status", Toast.LENGTH_LONG).show();
+                Log.e("TAG","An error occurred: $status")
             }
         })
     }
