@@ -175,6 +175,7 @@ class MainActivity : AppCompatActivity()
                 var list = documentSnapshot["invitations"]
 
                 if(list!=null) {
+                    Data.invitations.clear()
                     for (invitation in (list as ArrayList<HashMap<String,String>>))
                     {
                         Data.invitations.add(Invitation(group = invitation["group"]!!,phone = invitation["phone"]!!))
