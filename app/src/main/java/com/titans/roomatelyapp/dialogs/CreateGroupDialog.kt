@@ -53,7 +53,7 @@ class CreateGroupDialog: DialogFragment
                             "members" to arrayListOf(Data.currentUser.phone)
                         )
 
-                        groups.document(Data.currentUser.phone+Data.CONCAT+groupName.toLowerCase()).set(members)
+                        groups.document(Data.currentUser.phone+Data.CONCAT+groupName).set(members)
                             .addOnSuccessListener { void ->
                                 Data.currentUser.groups.add(Data.currentUser.phone+Data.CONCAT+groupName)
 

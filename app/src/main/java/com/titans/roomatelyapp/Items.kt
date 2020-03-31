@@ -9,6 +9,7 @@ import android.view.animation.LayoutAnimationController
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.titans.roomatelyapp.DataModels.Category
@@ -17,11 +18,16 @@ import com.titans.roomatelyapp.RecyclerViewAdapters.CategoryListAdapter
 import com.titans.roomatelyapp.RecyclerViewAdapters.ItemListAdapter
 import kotlinx.android.synthetic.main.activity_items.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
+import com.titans.roomatelyapp.dialogs.ProductDetailDialog
 import com.titans.roomatelyapp.items.ItemsActivity
 import com.titans.roomatelyapp.login.RegistrationActivity
+import kotlinx.android.synthetic.main.activity_item_crud.*
 
 class Items : AppCompatActivity()
 {
+    val BARCODE_READER_ACTIVITY_REQUEST = 1208
+
     lateinit var adapter: CategoryListAdapter
     var categories = ArrayList<Category>()
     override fun onCreate(savedInstanceState: Bundle?)
@@ -48,6 +54,11 @@ class Items : AppCompatActivity()
 
         navToAddItem.setOnClickListener{v ->
             startActivity(Intent(v.context, ItemsActivity::class.java))}
+
+        barcodScannerFloatingButtoon.setOnClickListener { v ->
+            val launchIntent: Intent = BarcodeReaderActivity.getLaunchIntent(this, true, false)
+            startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST)
+        }
     }
 
     fun getData()
@@ -110,6 +121,29 @@ class Items : AppCompatActivity()
     override fun onResume() {
         super.onResume()
         getData()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
+            return
+
+        var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
+
+        for(cat in categories)
+        {
+            for(item in cat.items)
+            {
+                if(item.barcodes.contains(barcode))
+                {
+                    ProductDetailDialog(item = item,category = cat.title).show(supportFragmentManager,"Product Detail")
+                    return
+                }
+            }
+        }
+
+        Toast.makeText(this,"Item not found",Toast.LENGTH_LONG).show()
+
     }
 
     //    fun getData(): ArrayList<Category>

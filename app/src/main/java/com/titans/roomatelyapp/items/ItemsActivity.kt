@@ -1,6 +1,7 @@
 package com.titans.roomatelyapp.items
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
@@ -18,6 +19,7 @@ import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.R
+import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 import kotlinx.android.synthetic.main.actionbar.*
 import kotlinx.android.synthetic.main.activity_item_crud.*
 import java.text.SimpleDateFormat
@@ -26,6 +28,7 @@ import kotlin.collections.ArrayList
 
 class ItemsActivity: AppCompatActivity()
 {
+    val BARCODE_READER_ACTIVITY_REQUEST = 1208
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -38,6 +41,11 @@ class ItemsActivity: AppCompatActivity()
 
         saveItemFloatingButton.setOnClickListener {
             saveData()
+        }
+
+        barcodeScannerFloatingButton.setOnClickListener { v ->
+            val launchIntent: Intent = BarcodeReaderActivity.getLaunchIntent(this, true, false)
+            startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST)
         }
     }
 
@@ -53,9 +61,9 @@ class ItemsActivity: AppCompatActivity()
             val desc: String = ETDesc.text.toString()
             val status = checkStatus.isChecked
             val category = ETProductCategory.text.toString()
-            var barcode = txtBarcode.text.toString()
+            var barcode = txtBarcode.text.toString().split("\n")
 
-            val item = Item(name=name,desc = desc,locations = ArrayList<String>(),inStock = status,barcodes = getBarcodes(barcode))
+            val item = Item(name=name,desc = desc,locations = ArrayList<String>(),inStock = status,barcodes = ArrayList<String>(barcode))
 
             var i = hashMapOf(name to item)
 
@@ -202,21 +210,24 @@ class ItemsActivity: AppCompatActivity()
         })
     }
 
-    fun getBarcodes(barcodeString: String): ArrayList<String>
-    {
-        var barcodes = ArrayList<String>()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
+            return
 
-        if(barcodeString.equals(""))
-            return barcodes
+        var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
 
-        var barcodeArray = barcodeString.split("\n")
-
-        for(index in 1..barcodeArray.size-1)
+        if(txtBarcode.text.toString().split("\n").contains(barcode))
         {
-            barcodes.add(barcodeArray[index])
+            Toast.makeText(this,"Barcode Already Added",Toast.LENGTH_LONG).show()
+            return
         }
 
-        return barcodes
+        if(txtBarcode.text.length!=0)
+            barcode="\n"+barcode
+
+        txtBarcode.text = txtBarcode.text.toString()+barcode
+
     }
 
     /* Hide keyboard when user touches outside of EditText. */

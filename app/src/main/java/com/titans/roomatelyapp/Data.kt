@@ -93,7 +93,7 @@ class Data {
 
         fun getTimeStamp(): String
         {
-            return SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+            return SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
         }
 
 

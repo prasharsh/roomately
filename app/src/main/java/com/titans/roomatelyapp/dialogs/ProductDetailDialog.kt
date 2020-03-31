@@ -1,5 +1,6 @@
 package com.titans.roomatelyapp.dialogs
 
+import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.RecyclerViewAdapters.ItemListAdapter
+import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 import kotlinx.android.synthetic.main.drawer_header.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -23,8 +25,11 @@ import kotlin.collections.ArrayList
 
 class ProductDetailDialog: DialogFragment
 {
+
+    val BARCODE_READER_ACTIVITY_REQUEST = 1208
     var item: Item
-    var adapter: ItemListAdapter
+    var adapter: ItemListAdapter?
+    var category: String?
 
 
 
@@ -45,9 +50,13 @@ class ProductDetailDialog: DialogFragment
     lateinit var cancelButton: ImageButton
     lateinit var editLinear: LinearLayout
 
-    constructor(item: Item, adapter: ItemListAdapter) : super() {
+    constructor(item: Item, adapter: ItemListAdapter?=null, category: String? = null) : super() {
         this.item = item
         this.adapter = adapter
+        this.category = category
+
+        if(category==null)
+            this.category = adapter?.category
     }
 
 
@@ -110,6 +119,11 @@ class ProductDetailDialog: DialogFragment
         saveButton.setOnClickListener { v -> checkValuesAndUpdate() }
 
         cancelButton.setOnClickListener { v -> switchVisibility(true) }
+
+        cameraButton.setOnClickListener { v ->
+            val launchIntent: Intent = BarcodeReaderActivity.getLaunchIntent(view.context, true, false)
+            startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST)
+        }
 
         return view
     }
@@ -181,14 +195,15 @@ class ProductDetailDialog: DialogFragment
                     this.item.name to FieldValue.delete()
                 )
                 Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
-                    .document(adapter.category).update(delete)
+                    .document(category!!).update(delete)
             }
 
             Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
-                .document(adapter.category).set(update, SetOptions.merge())
+                .document(category!!).set(update, SetOptions.merge())
                 .addOnSuccessListener { void ->
                     this.item.copy(item)
-                    this.adapter.notifyDataSetChanged()
+                    if(adapter!=null)
+                        this.adapter?.notifyDataSetChanged()
                 }
         }
         else
@@ -200,14 +215,15 @@ class ProductDetailDialog: DialogFragment
                     this.item.name to FieldValue.delete()
                 )
                 Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
-                    .document(adapter.category).update(delete)
+                    .document(category!!).update(delete)
             }
 
             Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
-                .document(adapter.category).set(update, SetOptions.merge())
+                .document(category!!).set(update, SetOptions.merge())
                 .addOnSuccessListener { void ->
                     this.item.copy(item)
-                    this.adapter.notifyDataSetChanged()
+                    if(adapter!=null)
+                        this.adapter?.notifyDataSetChanged()
                 }
         }
         switchVisibility(true)
@@ -217,7 +233,8 @@ class ProductDetailDialog: DialogFragment
 
     fun deleteItem()
     {
-        adapter.items.remove(item)
+        if(adapter!=null)
+            adapter!!.items.remove(item)
 
         var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
         if(Data.selectedGroup.equals("Self"))
@@ -226,7 +243,7 @@ class ProductDetailDialog: DialogFragment
                item.name to FieldValue.delete()
            )
 
-            Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items").document(adapter.category).update(i)
+            Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items").document(category!!).update(i)
                 .addOnSuccessListener {
 
                     var t = Transaction(
@@ -246,7 +263,7 @@ class ProductDetailDialog: DialogFragment
                 item.name to FieldValue.delete()
             )
 
-            Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items").document(adapter.category).update(i)
+            Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items").document(category!!).update(i)
                     .addOnSuccessListener {
                         var t = Transaction(
                             title = item.name+ " back in stock",
@@ -260,7 +277,8 @@ class ProductDetailDialog: DialogFragment
                     }
         }
 
-        adapter.notifyDataSetChanged()
+        if(adapter!=null)
+            adapter?.notifyDataSetChanged()
     }
 
     fun setValues()
@@ -300,5 +318,47 @@ class ProductDetailDialog: DialogFragment
         editBarcodes.visibility = edit
         checkStatus.visibility = edit
         editLinear.visibility = edit
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
+            return
+
+        var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
+
+        if(item.barcodes.contains(barcode))
+        {
+            Toast.makeText(requireContext(),"Barcode Already Added",Toast.LENGTH_LONG).show()
+        }
+        item.barcodes.add(barcode!!)
+
+        var update = hashMapOf(
+            item.name to item
+        )
+        if(Data.selectedGroup.equals("Self"))
+        {
+
+            Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
+                .document(category!!).set(update, SetOptions.merge())
+                .addOnSuccessListener { void ->
+                    this.item.copy(item)
+                    if(adapter!=null)
+                        this.adapter?.notifyDataSetChanged()
+                }
+        }
+        else
+        {
+
+            Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
+                .document(category!!).set(update, SetOptions.merge())
+                .addOnSuccessListener { void ->
+                    this.item.copy(item)
+                    if(adapter!=null)
+                        this.adapter?.notifyDataSetChanged()
+                }
+        }
+
+        txtBarcodes.text=txtBarcodes.text.toString()+"\n"+barcode
     }
 }
