@@ -1,5 +1,6 @@
 package com.titans.roomatelyapp.items
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -26,10 +27,10 @@ class LocationActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_location)
         Places.initialize(applicationContext, getString(R.string.places_api))
-        var intent = intent
-        productName = intent.getStringExtra("productName")
-        productDesc = intent.getStringExtra("productDesc")
-        productCategory = intent.getStringExtra("productCategory")
+//        var intent = intent
+//        productName = intent.getStringExtra("productName")
+//        productDesc = intent.getStringExtra("productDesc")
+//        productCategory = intent.getStringExtra("productCategory")
         val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
 
@@ -39,14 +40,16 @@ class LocationActivity : AppCompatActivity(){
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                val intent = Intent(this@LocationActivity, ItemsActivity::class.java)
+//                val intent = Intent(this@LocationActivity, ItemsActivity::class.java)
+                val intent = Intent()
                 intent.putExtra("Name", ""+place.name )
                 intent.putExtra("Address", ""+place.address)
-
-                intent.putExtra("productName", ""+productName)
-                intent.putExtra("productCategory", ""+productCategory)
-                intent.putExtra("productDesc", ""+productDesc)
-                startActivity(intent)
+//
+//                intent.putExtra("productName", ""+productName)
+//                intent.putExtra("productCategory", ""+productCategory)
+//                intent.putExtra("productDesc", ""+productDesc)
+                setResult(Activity.RESULT_OK,intent)
+                finish()
                 }
 
             override fun onError(status: Status) {
