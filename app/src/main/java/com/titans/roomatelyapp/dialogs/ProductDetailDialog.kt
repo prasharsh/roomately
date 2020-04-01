@@ -17,6 +17,8 @@ import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.RecyclerViewAdapters.ItemListAdapter
 import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
+import com.titans.roomatelyapp.items.LocationActivity
+import kotlinx.android.synthetic.main.activity_item_crud.*
 import kotlinx.android.synthetic.main.drawer_header.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -27,6 +29,7 @@ class ProductDetailDialog: DialogFragment
 {
 
     val BARCODE_READER_ACTIVITY_REQUEST = 1208
+    val LOCATION_ACTIVITY_REQUEST = 1308
     var item: Item
     var adapter: ItemListAdapter?
     var category: String?
@@ -37,14 +40,17 @@ class ProductDetailDialog: DialogFragment
     lateinit var txtItemDesc: TextView
     lateinit var txtItemStatus: TextView
     lateinit var txtBarcodes: TextView
+    lateinit var txtLocation: TextView
     lateinit var editButton: ImageButton
     lateinit var deleteButton: ImageButton
     lateinit var cameraButton: ImageButton
+    lateinit var locationButton: ImageButton
     lateinit var normalLinear: LinearLayout
 
     lateinit var editName: EditText
     lateinit var editDesc: EditText
     lateinit var editBarcodes: EditText
+    lateinit var editLocation: EditText
     lateinit var checkStatus: CheckBox
     lateinit var saveButton: ImageButton
     lateinit var cancelButton: ImageButton
@@ -71,14 +77,17 @@ class ProductDetailDialog: DialogFragment
         txtItemDesc = view.findViewById(R.id.txtItemDesc)
         txtItemStatus = view.findViewById(R.id.txtStatus)
         txtBarcodes = view.findViewById(R.id.txtBarcodes)
+        txtLocation = view.findViewById(R.id.txtLocation)
         editButton = view.findViewById(R.id.editButton)
         deleteButton = view.findViewById(R.id.deletButton)
         cameraButton = view.findViewById(R.id.cameraButton)
+        locationButton = view.findViewById(R.id.locationButton)
         normalLinear = view.findViewById(R.id.noramlLinear)
 
         editName = view.findViewById(R.id.editName)
         editDesc = view.findViewById(R.id.editDesc)
         editBarcodes = view.findViewById(R.id.editBarcodes)
+        editLocation = view.findViewById(R.id.editLocation)
         checkStatus = view.findViewById(R.id.checkStatus)
         saveButton = view.findViewById(R.id.saveButton)
         cancelButton = view.findViewById(R.id.cancelButton)
@@ -109,6 +118,12 @@ class ProductDetailDialog: DialogFragment
         txtBarcodes.text = b
         editBarcodes.setText(b)
 
+        Log.e("TAG",item.locations)
+        Log.e("TAG",item.locations.split(Data.CONCAT)[0])
+
+        txtLocation.text = "Location: \n"+item.locations
+        editBarcodes.setText("Location: \n"+item.locations)
+
         deleteButton.setOnClickListener { v -> deleteItem() }
 
         editButton.setOnClickListener { v ->
@@ -125,6 +140,12 @@ class ProductDetailDialog: DialogFragment
             startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST)
         }
 
+        locationButton.setOnClickListener { v ->
+            val intent = Intent(requireContext(),LocationActivity::class.java)
+
+            startActivityForResult(intent,LOCATION_ACTIVITY_REQUEST)
+        }
+
         return view
     }
 
@@ -134,6 +155,13 @@ class ProductDetailDialog: DialogFragment
         var desc = editDesc.text.toString()
         var barcodes = editBarcodes.text.toString()
         var status = checkStatus.isChecked
+        var locationList = editLocation.text.toString().trim().split("\n")
+
+        var location = ""
+        if(locationList.size>1)
+        {
+            location=locationList[1]
+        }
 
         if(name.equals(""))
         {
@@ -179,7 +207,8 @@ class ProductDetailDialog: DialogFragment
             name = name,
             desc = desc,
             inStock = status,
-            barcodes = barcodeList
+            barcodes = barcodeList,
+            locations = location
         )
 
         var update = hashMapOf(
@@ -201,7 +230,6 @@ class ProductDetailDialog: DialogFragment
             Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
                 .document(category!!).set(update, SetOptions.merge())
                 .addOnSuccessListener { void ->
-                    this.item.copy(item)
                     if(adapter!=null)
                         this.adapter?.notifyDataSetChanged()
                 }
@@ -221,7 +249,6 @@ class ProductDetailDialog: DialogFragment
             Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
                 .document(category!!).set(update, SetOptions.merge())
                 .addOnSuccessListener { void ->
-                    this.item.copy(item)
                     if(adapter!=null)
                         this.adapter?.notifyDataSetChanged()
                 }
@@ -310,58 +337,98 @@ class ProductDetailDialog: DialogFragment
         txtItemName.visibility = primary
         txtItemDesc.visibility = primary
         txtItemStatus.visibility = primary
+        txtLocation.visibility = primary
         txtBarcodes.visibility = primary
         normalLinear.visibility = primary
 
         editName.visibility = edit
         editDesc.visibility = edit
         editBarcodes.visibility = edit
+        editLocation.visibility = edit
         checkStatus.visibility = edit
         editLinear.visibility = edit
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if(requestCode!=BARCODE_READER_ACTIVITY_REQUEST)
-            return
-
         if(data==null)
             return
 
-        var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
-
-        if(item.barcodes.contains(barcode))
+        if(requestCode == LOCATION_ACTIVITY_REQUEST)
         {
-            Toast.makeText(requireContext(),"Barcode Already Added",Toast.LENGTH_LONG).show()
-        }
-        item.barcodes.add(barcode!!)
+            if (data == null)
+                return
 
-        var update = hashMapOf(
-            item.name to item
-        )
-        if(Data.selectedGroup.equals("Self"))
+            var locationName = data?.getStringExtra("Name")
+            var locationAddress = data?.getStringExtra("Address")
+
+            item.locations = locationName+"-"+locationAddress
+            var update = hashMapOf(
+                item.name to item
+            )
+            if(Data.selectedGroup.equals("Self"))
+            {
+
+                Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
+                    .document(category!!).set(update, SetOptions.merge())
+                    .addOnSuccessListener { void ->
+//                        this.item.copy(item)
+                    }
+            }
+            else
+            {
+
+                Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
+                    .document(category!!).set(update, SetOptions.merge())
+                    .addOnSuccessListener { void ->
+//                        this.item.copy(item)
+                    }
+            }
+
+
+            txtLocation.text = "Location: "+locationName
+
+            return
+        }
+
+        if(requestCode==BARCODE_READER_ACTIVITY_REQUEST)
         {
 
-            Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
-                .document(category!!).set(update, SetOptions.merge())
-                .addOnSuccessListener { void ->
-                    this.item.copy(item)
-                    if(adapter!=null)
-                        this.adapter?.notifyDataSetChanged()
-                }
-        }
-        else
-        {
+            var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
 
-            Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
-                .document(category!!).set(update, SetOptions.merge())
-                .addOnSuccessListener { void ->
-                    this.item.copy(item)
-                    if(adapter!=null)
-                        this.adapter?.notifyDataSetChanged()
-                }
-        }
+            if(item.barcodes.contains(barcode))
+            {
+                Toast.makeText(requireContext(),"Barcode Already Added",Toast.LENGTH_LONG).show()
+            }
+            item.barcodes.add(barcode!!)
 
-        txtBarcodes.text=txtBarcodes.text.toString()+"\n"+barcode
+            var update = hashMapOf(
+                item.name to item
+            )
+            if(Data.selectedGroup.equals("Self"))
+            {
+
+                Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
+                    .document(category!!).set(update, SetOptions.merge())
+                    .addOnSuccessListener { void ->
+//                        this.item.copy(item)
+                        if(adapter!=null)
+                            this.adapter?.notifyDataSetChanged()
+                    }
+            }
+            else
+            {
+
+                Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items")
+                    .document(category!!).set(update, SetOptions.merge())
+                    .addOnSuccessListener { void ->
+//                        this.item.copy(item)
+                        if(adapter!=null)
+                            this.adapter?.notifyDataSetChanged()
+                    }
+            }
+
+            txtBarcodes.text=txtBarcodes.text.toString()+"\n"+barcode
+        }
     }
 }

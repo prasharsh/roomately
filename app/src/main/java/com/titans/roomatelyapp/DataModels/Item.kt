@@ -6,14 +6,14 @@ class Item
     var desc = ""
     var inStock = false
     lateinit var barcodes:ArrayList<String>
-    lateinit var locations: ArrayList<String>
+    var locations = ""
 
     constructor(
         name: String="",
         desc: String="",
         inStock: Boolean,
         barcodes:ArrayList<String> =  ArrayList<String>(),
-        locations: ArrayList<String> = ArrayList<String>()
+        locations: String = ""
     ) {
         this.name = name
         this.desc = desc

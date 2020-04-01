@@ -59,7 +59,7 @@ class ItemsActivity: AppCompatActivity() {
 
         checkValues()
 
-        addLocationBtn!!.setOnClickListener {
+        addLocationBtn.setOnClickListener {
             val intent = Intent(this, LocationActivity::class.java)
 
 //            intent.putExtra("productName", ""+ETProductName.text+"")
@@ -101,11 +101,12 @@ class ItemsActivity: AppCompatActivity() {
             val status = checkStatus.isChecked
             val category = ETProductCategory.text.toString()
             var barcode = txtBarcode.text.toString().split("\n")
+            var location = tvLocation.text.toString()
 
             val item = Item(
                 name = name,
                 desc = desc,
-                locations = ArrayList<String>(),
+                locations = location,
                 inStock = status,
                 barcodes = ArrayList<String>(barcode)
             )
@@ -276,7 +277,7 @@ class ItemsActivity: AppCompatActivity() {
             var locationAddress = data?.getStringExtra("Address")
 
 
-            tvLocation.text = locationName+" - "+locationAddress
+            tvLocation.text = locationName+"-"+locationAddress
 
             return
         }

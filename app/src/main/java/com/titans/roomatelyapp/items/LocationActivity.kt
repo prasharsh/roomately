@@ -44,6 +44,8 @@ class LocationActivity : AppCompatActivity(){
                 val intent = Intent()
                 intent.putExtra("Name", ""+place.name )
                 intent.putExtra("Address", ""+place.address)
+
+//                Log.e("TAG","Address"+ place.latLng?.latitude.toString()+" - "+place.latLng?.longitude.toString())
 //
 //                intent.putExtra("productName", ""+productName)
 //                intent.putExtra("productCategory", ""+productCategory)

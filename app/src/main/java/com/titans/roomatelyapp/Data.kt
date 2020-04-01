@@ -138,6 +138,7 @@ class Data {
 
         //constants
         val CONCAT = "_ _"
+        val CONCATCOORD = "_/_"
         val GROUPNAME = "groupName"
 
         val GROUPS = "groups"
