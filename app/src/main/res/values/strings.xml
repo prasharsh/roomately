@@ -9,10 +9,10 @@
     <string name="reg_button">Register</string>
     <string name="login_prompt">Back to login.</string>
     <string name="or_login">OR</string>
-    <string name="reg_name">Your Name</string>
-    <string name="enter_email">Enter Email</string>
-    <string name="enter_password">Enter Password</string>
-    <string name="reg_phone">Register with Phone Number</string>
+    <string name="reg_name"> Your Name</string>
+    <string name="enter_email"> Enter Email</string>
+    <string name="enter_password"> Enter Password</string>
+    <string name="reg_phone">  Register with Phone Number</string>
     <string name="reenter_pass">Re-enter Password</string>
     <string name="product_name_hint">Enter Product Name</string>
     <string name="product_desc_hint">Enter Product Description</string>
