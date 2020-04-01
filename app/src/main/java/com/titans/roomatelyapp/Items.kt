@@ -97,7 +97,8 @@ class Items : AppCompatActivity()
                                 name = map.get("name").toString(),
                                 desc = map.get("desc").toString(),
                                 inStock = map.get("inStock") as Boolean,
-                                barcodes = map.get("barcodes") as ArrayList<String>
+                                barcodes = map.get("barcodes") as ArrayList<String>,
+                                locations = map.get("locations") as String
                             ))
                         }
                         categories.add(cat)
@@ -124,7 +125,8 @@ class Items : AppCompatActivity()
                                 name = map.get("name").toString(),
                                 desc = map.get("desc").toString(),
                                 inStock = map.get("inStock") as Boolean,
-                                barcodes = map.get("barcodes") as ArrayList<String>
+                                barcodes = map.get("barcodes") as ArrayList<String>,
+                                locations = map.get("location") as String
                             ))
                         }
                         categories.add(cat)
@@ -203,3 +205,4 @@ class Items : AppCompatActivity()
 //        return list
 //    }
 }
+ 

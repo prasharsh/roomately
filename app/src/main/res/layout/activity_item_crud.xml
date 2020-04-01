@@ -60,6 +60,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Location: "
+            android:textSize="15sp"
+            android:layout_marginTop="20sp"/>
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Barcodes: "
             android:textSize="15sp"
             android:layout_marginTop="20sp"
@@ -70,21 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
+            android:layout_marginTop="5sp"
             android:textSize="15sp"
             android:id="@+id/txtBarcode"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Location: "
-            android:textSize="15sp"
-            android:layout_marginTop="20sp"/>
-
-        <TextView
-            android:id="@+id/tvLocation"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 
@@ -100,7 +102,7 @@
         app:layout_constraintBottom_toTopOf="@id/barcodeScannerFloatingButton"
         android:backgroundTint="@color/actionbar"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_add_location_black_24dp"/>
+        app:srcCompat="@drawable/location"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/barcodeScannerFloatingButton"

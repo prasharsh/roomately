@@ -40,23 +40,33 @@ import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 
 class ItemsActivity: AppCompatActivity() {
     val BARCODE_READER_ACTIVITY_REQUEST = 1208
+    val LOCATION_ACTIVITY_REQUEST = 1308
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_crud)
 
-        var intent = intent
-        var productLocation = intent.getStringExtra("Name") + " - " + intent.getStringExtra("Address")
-        if (!(productLocation!!.contains("null")))
-            tvLocation.text = productLocation
+//        var intent = intent
+//        var productLocation = intent.getStringExtra("Name") + " - " + intent.getStringExtra("Address")
+//        ETDesc.setText(intent.getStringExtra("productDesc"))
+//        ETProductCategory.setText(intent.getStringExtra("productCategory"))
+//        ETProductName.setText(intent.getStringExtra("productName"))
+//        if (!(productLocation!!.contains("null")))
+//            tvLocation.text = productLocation
 
         backButton.setOnClickListener { _ -> onBackPressed() }
         txtToolbarLabel.text = getString(R.string.add_item)
 
         checkValues()
 
-        addLocationBtn!!.setOnClickListener { v ->
-            startActivity(Intent(v.context, LocationActivity::class.java))
+        addLocationBtn.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
+
+//            intent.putExtra("productName", ""+ETProductName.text+"")
+//            intent.putExtra("productCategory", ""+ETProductCategory.text+"")
+//            intent.putExtra("productDesc", ""+ETDesc.text+"")
+
+            startActivityForResult(intent,LOCATION_ACTIVITY_REQUEST)
         }
 
         backButton.setOnClickListener { _ -> onBackPressed() }
@@ -91,11 +101,12 @@ class ItemsActivity: AppCompatActivity() {
             val status = checkStatus.isChecked
             val category = ETProductCategory.text.toString()
             var barcode = txtBarcode.text.toString().split("\n")
+            var location = tvLocation.text.toString()
 
             val item = Item(
                 name = name,
                 desc = desc,
-                locations = ArrayList<String>(),
+                locations = location,
                 inStock = status,
                 barcodes = ArrayList<String>(barcode)
             )
@@ -256,24 +267,38 @@ class ItemsActivity: AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != BARCODE_READER_ACTIVITY_REQUEST)
-            return
 
-        if (data == null)
-            return
+        if(requestCode == LOCATION_ACTIVITY_REQUEST)
+        {
+            if (data == null)
+                return
 
-        var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
+            var locationName = data?.getStringExtra("Name")
+            var locationAddress = data?.getStringExtra("Address")
 
-        if (txtBarcode.text.toString().split("\n").contains(barcode)) {
-            Toast.makeText(this, "Barcode Already Added", Toast.LENGTH_LONG).show()
+
+            tvLocation.text = locationName+"-"+locationAddress
+
             return
         }
 
-        if (txtBarcode.text.length != 0)
-            barcode = "\n" + barcode
+        if (requestCode == BARCODE_READER_ACTIVITY_REQUEST)
+        {
+            if (data == null)
+                return
 
-        txtBarcode.text = txtBarcode.text.toString() + barcode
+            var barcode = data?.getStringExtra(BarcodeReaderActivity.KEY_CAPTURED_RAW_BARCODE)
 
+            if (txtBarcode.text.toString().split("\n").contains(barcode)) {
+                Toast.makeText(this, "Barcode Already Added", Toast.LENGTH_LONG).show()
+                return
+            }
+
+            if (txtBarcode.text.length != 0)
+                barcode = "\n" + barcode
+
+            txtBarcode.text = txtBarcode.text.toString() + barcode
+        }
     }
 
     /* Hide keyboard when user touches outside of EditText. */

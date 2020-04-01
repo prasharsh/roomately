@@ -78,6 +78,25 @@
         android:layout_below="@id/checkStatus"
         android:id="@+id/editBarcodes"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:layout_marginTop="20sp"
+        android:layout_below="@id/txtBarcodes"
+        android:textColor="@android:color/black"
+        android:id="@+id/txtLocation"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:visibility="gone"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/editLocation"
+        android:id="@+id/editLocation"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_marginTop="25sp"
@@ -86,7 +105,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:layout_below="@id/txtBarcodes">
+        android:layout_below="@id/txtLocation">
 
         <ImageButton
             android:layout_width="30sp"
@@ -96,6 +115,15 @@
             android:backgroundTint="@android:color/black"
             android:background="@drawable/camera"
             android:id="@+id/cameraButton"/>
+
+        <ImageButton
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_weight="1"
+            android:layout_margin="10sp"
+            android:backgroundTint="@color/actionbar"
+            android:background="@drawable/location"
+            android:id="@+id/locationButton"/>
 
         <ImageButton
             android:layout_width="30sp"
@@ -115,6 +143,7 @@
             android:background="@drawable/delete"
             android:id="@+id/deletButton"/>
 
+
     </LinearLayout>
 
     <LinearLayout
@@ -126,7 +155,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:layout_below="@id/editBarcodes">
+        android:layout_below="@id/editLocation">
 
 
         <ImageButton
