@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,55 +9,59 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        style="@style/GroupsCards">
+        android:layout_margin="5sp"
+        android:elevation="5sp"
+        app:cardCornerRadius="4sp"
+        android:id="@+id/cardInvite"
+        android:outlineSpotShadowColor="@android:color/darker_gray"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                style="@style/GroupsCardImages"
-                android:layout_above="@id/txtGroups"
-                android:background="@drawable/groups"></ImageView>
+            android:padding="7sp"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtGroups"
-                android:text="Groups"
-                style="@style/GroupsCardLables"
-                ></TextView>
+                android:text="Invitations"
+                android:id="@+id/txtInvite"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_light"
+                android:textColor="@android:color/white"
+                android:text="0"
+                android:paddingStart="5sp"
+                android:paddingEnd="5sp"
+                android:id="@+id/txtNumInvitations"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBaseline="@+id/txtInvite"
+                android:layout_marginEnd="10sp"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-
-    <androidx.cardview.widget.CardView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
+        android:layout_below="@id/cardInvite"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        style="@style/GroupsCards">
+        android:id="@+id/groupList"
+        android:layout_margin="10sp"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                style="@style/GroupsCardImages"
-                android:layout_above="@id/txtActivities"
-                android:background="@drawable/activities"></ImageView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add"
+        app:rippleColor="@android:color/holo_red_dark"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp"
+        android:id="@+id/addGroupButton"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtActivities"
-                android:text="Activities"
-                style="@style/GroupsCardLables"
-                ></TextView>
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</RelativeLayout>
