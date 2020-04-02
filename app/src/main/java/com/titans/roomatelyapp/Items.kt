@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.titans.roomatelyapp.DataModels.Category
@@ -23,6 +24,9 @@ import com.titans.roomatelyapp.dialogs.ProductDetailDialog
 import com.titans.roomatelyapp.items.ItemsActivity
 import com.titans.roomatelyapp.login.RegistrationActivity
 import kotlinx.android.synthetic.main.activity_item_crud.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Items : AppCompatActivity()
 {
@@ -30,6 +34,8 @@ class Items : AppCompatActivity()
 
     lateinit var adapter: CategoryListAdapter
     var categories = ArrayList<Category>()
+    var filteredCategories = ArrayList<Category>()
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -37,12 +43,13 @@ class Items : AppCompatActivity()
 
         var backButton = findViewById<ImageButton>(R.id.backButton)
         var txtToolbarLabel = findViewById<TextView>(R.id.txtToolbarLabel)
+        var searchItem = findViewById<SearchView>(R.id.searchItem)
         val navToAddItem = findViewById<FloatingActionButton>(R.id.addItemFloatingButtoon)
         backButton.setOnClickListener { _ -> onBackPressed() }
         txtToolbarLabel.text = Data.selectedGroup+" > Items"
 
 //        getData()
-        adapter = CategoryListAdapter(this,categories)
+        adapter = CategoryListAdapter(this, filteredCategories)
 
         var animation = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_animation_fall_down)
         categoryList.layoutAnimation = animation
@@ -51,6 +58,14 @@ class Items : AppCompatActivity()
         categoryList.adapter = adapter
         categoryList.layoutManager = LinearLayoutManager(this)
 
+        searchItem.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter(newText.toString())
+                return false
+            }
+        })
 
         navToAddItem.setOnClickListener{v ->
             startActivity(Intent(v.context, ItemsActivity::class.java))}
@@ -64,6 +79,7 @@ class Items : AppCompatActivity()
     fun getData()
     {
         categories.clear()
+        filteredCategories.clear()
         if(Data.selectedGroup.equals("Self"))
         {
 
@@ -86,8 +102,9 @@ class Items : AppCompatActivity()
                             ))
                         }
                         categories.add(cat)
-                        adapter.notifyDataSetChanged()
                     }
+                    filteredCategories.addAll(categories)
+                    adapter.notifyDataSetChanged()
                 }
         }
         else
@@ -113,8 +130,9 @@ class Items : AppCompatActivity()
                             ))
                         }
                         categories.add(cat)
-                        adapter.notifyDataSetChanged()
                     }
+                    filteredCategories.addAll(categories)
+                    adapter.notifyDataSetChanged()
                 }
         }
         Log.e("TAG", categories.size.toString())
@@ -148,6 +166,27 @@ class Items : AppCompatActivity()
 
         Toast.makeText(this,"Item not found",Toast.LENGTH_LONG).show()
 
+    }
+
+    fun filter(search: String) {
+        val searchTerm = search.toLowerCase(Locale.getDefault())
+        filteredCategories.clear()
+
+        if (searchTerm.isEmpty()) {
+            filteredCategories.addAll(categories)
+        }
+        else {
+            for(ctgry in categories) {
+                val category = Category(ctgry.title)
+                category.items.addAll(ctgry.items.filter { item ->
+                    item.name.toLowerCase(Locale.getDefault()).contains(searchTerm)
+                })
+                if (category.items.isNotEmpty()) {
+                    filteredCategories.add(category)
+                }
+            }
+        }
+        adapter.notifyDataSetChanged()
     }
 
     //    fun getData(): ArrayList<Category>

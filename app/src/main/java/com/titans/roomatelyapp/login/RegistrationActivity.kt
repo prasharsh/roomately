@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.MainActivity
 import com.titans.roomatelyapp.R
+import com.titans.roomatelyapp.introslider.IntroSliderActivity
 import kotlinx.android.synthetic.main.activity_registration.*
 import java.io.Serializable
 
@@ -167,7 +168,7 @@ class RegistrationActivity : AppCompatActivity()
             .addOnSuccessListener { void ->
                 getSharedPreferences(Data.SHAREDPREF, Context.MODE_PRIVATE).edit().putString(Data.SAVEDUSER,user[Data.USER_PHONE] as String).commit()
                 Toast.makeText(this,"Welcome",Toast.LENGTH_LONG).show()
-                var i = Intent(this,MainActivity::class.java)
+                var i = Intent(this,IntroSliderActivity::class.java)
                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(i)
             }

@@ -14,6 +14,8 @@ import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.DataModels.User
 import com.titans.roomatelyapp.MainActivity
 import com.titans.roomatelyapp.R
+import com.titans.roomatelyapp.introslider.IntroSliderActivity
+import com.titans.roomatelyapp.introslider.SliderStartFragment
 
 class LoginActivity : AppCompatActivity()
 {
@@ -56,7 +58,7 @@ class LoginActivity : AppCompatActivity()
                             editor.putString(Data.SAVEDUSER,phone)
                             editor.commit()
 
-                            var i = Intent(this,MainActivity::class.java)
+                            var i = Intent(this,IntroSliderActivity::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(i)
                         }

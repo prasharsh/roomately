@@ -3,17 +3,21 @@ package com.titans.roomatelyapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.RecyclerViewAdapters.TransactionsAdapter
 import kotlinx.android.synthetic.main.actionbar.*
 import kotlinx.android.synthetic.main.activity_transactions.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Transactions : AppCompatActivity()
 {
 
     var transactions = ArrayList<Transaction>()
+    var filteredTransactions = ArrayList<Transaction>()
     lateinit var adapter: TransactionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -21,17 +25,26 @@ class Transactions : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
 
+        var searchItem = findViewById<SearchView>(R.id.searchItem)
         backButton.setOnClickListener { v ->
             onBackPressed()
         }
 
         txtToolbarLabel.text = Data.selectedGroup+" > Transactions"
 
-        adapter = TransactionsAdapter(this,transactions)
-//
+        adapter = TransactionsAdapter(this, filteredTransactions)
+
         transactionList.adapter = adapter
         transactionList.layoutManager = LinearLayoutManager(this)
 
+        searchItem.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter(newText.toString())
+                return false
+            }
+        })
     }
 
 
@@ -39,6 +52,7 @@ class Transactions : AppCompatActivity()
         super.onResume()
 
         transactions.clear()
+        filteredTransactions.clear()
         if(Data.selectedGroup.equals("Self"))
         {
             Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions").get()
@@ -53,6 +67,7 @@ class Transactions : AppCompatActivity()
 
                         transactions.add(t)
                     }
+                    filteredTransactions.addAll(transactions)
                     adapter.notifyDataSetChanged()
 
                 }
@@ -77,12 +92,29 @@ class Transactions : AppCompatActivity()
 
                         transactions.add(t)
                     }
+                    filteredTransactions.addAll(transactions)
                     adapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener { exception ->
                     Log.e("TAG","Error Reading Transaction")
                 }
         }
+    }
+
+    fun filter(search: String) {
+        val searchTerm = search.toLowerCase(Locale.getDefault())
+        filteredTransactions.clear()
+
+        if (searchTerm.isEmpty()) {
+            filteredTransactions.addAll(transactions)
+        }
+        else {
+            filteredTransactions.addAll(transactions.filter { item ->
+                item.title.toLowerCase(Locale.getDefault()).contains(searchTerm)
+            })
+        }
+
+        adapter.notifyDataSetChanged()
     }
 
 //    fun getData():ArrayList<Transaction>
