@@ -3,12 +3,14 @@ package com.titans.roomatelyapp.RecyclerViewAdapters
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +75,8 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
         holder.txtItem.text = inStockItems[position].item.name
         holder.txtCat.text = inStockItems[position].cat.title
 
-        holder.removeItem.setImageDrawable(ctx.getDrawable(R.drawable.add))
+        holder.removeItem.background = ctx.getDrawable(R.drawable.add)
+        holder.removeItem.backgroundTintList = ColorStateList.valueOf(ctx.getColor(R.color.actionbar))
         holder.removeItem.setOnClickListener { v ->
 
             inStockItems[position].item.inStock = false
@@ -138,7 +141,7 @@ class InStockListAdapter: RecyclerView.Adapter<InStockListAdapter.ViewHolder>
     {
         var parent: ConstraintLayout
         var txtItem: TextView
-        var removeItem: ImageView
+        var removeItem: ImageButton
         var txtCat: TextView
         constructor(itemView: View) : super(itemView)
         {

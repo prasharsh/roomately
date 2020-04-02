@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Invitations"></activity>
+        <activity android:name=".help.HelpFragmentContainer"></activity>
+        <activity android:name=".help.Help" />
+        <activity android:name=".Invitations" />
         <activity android:name=".Members" />
         <activity android:name=".barcodeReader.BarcodeReaderActivity" />
         <activity android:name=".ProfilePage" />
@@ -24,7 +26,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".LowStockItems" />
         <activity android:name=".items.ItemsActivity" />
-        <activity android:name=".items.LocationActivity"/>
+        <activity android:name=".items.LocationActivity" />
         <activity android:name=".Items" />
         <activity android:name=".Transactions" />
         <activity android:name=".MainActivity">
@@ -34,10 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCpUagO6nAHRj3djRR9a22CQVCfJ0zXCLg"/>
-
+            android:value="AIzaSyCpUagO6nAHRj3djRR9a22CQVCfJ0zXCLg" />
     </application>
 
 </manifest>

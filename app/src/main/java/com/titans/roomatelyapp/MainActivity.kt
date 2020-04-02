@@ -21,6 +21,7 @@ import com.titans.roomatelyapp.MainWindowTabs.Groups
 import com.titans.roomatelyapp.DataModels.User
 import com.titans.roomatelyapp.dialogs.ChangePasswordDialog
 import com.titans.roomatelyapp.dialogs.EditNameDialog
+import com.titans.roomatelyapp.help.HelpFragmentContainer
 import com.titans.roomatelyapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_header.*
@@ -100,6 +101,11 @@ class MainActivity : AppCompatActivity()
                     confirmAndDelete()
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.help ->
+                {
+                    startActivity(Intent(this@MainActivity,HelpFragmentContainer::class.java))
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
@@ -137,7 +143,6 @@ class MainActivity : AppCompatActivity()
                     )
 
 //                    getInvitations()
-                    Data.setTranscationListners(applicationContext)
                     setNavigationHeader()
                 }
         }

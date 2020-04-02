@@ -386,7 +386,7 @@ class ProductDetailDialog: DialogFragment
             }
 
 
-            txtLocation.text = "Location: "+locationName
+            txtLocation.text = "Location: "+item.locations
 
             return
         }

@@ -1,22 +1,15 @@
 package com.titans.roomatelyapp.login
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.DataModels.User
 import com.titans.roomatelyapp.MainActivity
@@ -25,7 +18,6 @@ import com.titans.roomatelyapp.R
 class LoginActivity : AppCompatActivity()
 {
     private val TAG = "RegistrationActivity"
-    private val authUser = FirebaseAuth.getInstance()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@id/txtItem"
         android:id="@+id/txtCategory"/>
 
-    <ImageView
+    <ImageButton
         android:layout_width="30sp"
         android:layout_margin="10sp"
         android:layout_height="30sp"

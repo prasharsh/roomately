@@ -16,8 +16,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.edit
-import com.google.firebase.auth.FirebaseAuth
 import com.titans.roomatelyapp.Data
 import com.titans.roomatelyapp.MainActivity
 import com.titans.roomatelyapp.R
@@ -93,8 +91,11 @@ class RegistrationActivity : AppCompatActivity()
             val tMgr =
                 this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             val mPhoneNumber = tMgr.line1Number
-            reg_phone.setText(mPhoneNumber)
-            reg_phone.isEnabled = false
+            if(mPhoneNumber!=null && !mPhoneNumber.equals(""))
+            {
+                reg_phone.setText(mPhoneNumber)
+                reg_phone.isEnabled = false
+            }
 //            Toast.makeText(this@RegistrationActivity,"Phone number: "+mPhoneNumber,Toast.LENGTH_LONG).show()
         } else {
             requestPermission()

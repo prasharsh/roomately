@@ -50,4 +50,139 @@
             \n\t- Containing atleast 1 Lowercase Letter
             \n\t- Containing atleast 1 Number
     </string>
+
+    <string name="dimen">
+        2.9:5.6
+    </string>
+
+    /*
+        Help Tabs
+    */
+
+    //Add Item Instructions
+    <string name="addItem1">
+        1. Make sure you have selected proper group. To see how to select active group see help on <b>Select Active Group</b>.
+        \n\n2. Select <b>Items</b> tab from Dashboard
+    </string>
+
+    <string name="addItem2">
+        3. Click on Add Button
+    </string>
+
+    <string name="addItem3">
+        4. Enter all details of the product.
+        \n\n<b>Note: </b>If Category already exists, item will be added to that category. Otherwise new category will be created
+        \n\nAdd Barcode using Camera Button
+        \n\nAdd Location using Location Button
+        \n\nClick Save Button to add the product.
+    </string>
+
+    //Delete Item Instructions
+    <string name="deleteItem1">
+        1. Select <b>Items</b> tab from the Dashboard.
+        \n\n2. Click on item you want to delete. It will open Item Description
+        \n\n3. Click on Delete Button To delete item.
+    </string>
+
+    //Delete Category Instructions
+    <string name="deleteCategory1">
+        1. Select <b>Items</b> tab from the Dashboard.
+        \n\n2. Click and hold on the category you want to delete.
+        \n\n3. Click on <b>Delete</b> in the alert box to delete the category.
+    </string>
+
+
+    //Add Group Instructions
+    <string name="addGroup1">
+        1. Select <b>Groups</b> tab on Main Screen.
+        \n\n2. Click on Add Button at Right Bottom corner.
+    </string>
+
+    <string name="addGroup2">
+        3. In the dialog box, enter name of group you want to create and hit <b>Create Group</b> button.
+    </string>
+
+
+    //Add Member Instructions
+    <string name="addMember1">
+        1. Select <b>Groups</b> tab on Main Screen.
+        \n\n2. Click on group in which you want to add member.
+        \n\n3. Click on Add Button at Right Bottom Corner.
+    </string>
+
+    <string name="addMember2">
+        4. In the dialog box, enter Phone Number of member you want to add in group and hit <b>Add Member</b> button.
+    </string>
+
+    //Accept Invitation Instructions
+    <string name="acceptInvitation1">
+        1. Select <b>Groups</b> tab on Main Screen.
+        \n\n2. Click on <b>Invitations</b>
+    </string>
+
+    <string name="acceptInvitation2">
+        3. From the list of invitations, click on <b>Accept</b> Button to accept the invitation and get added in the group.
+    </string>
+
+    //Select Active Group Instructions
+    <string name="selectActiveGroup1">
+        1. Click on 3 Horizontal Lines at Top Left corner.
+    </string>
+
+    <string name="selectActiveGroup2">
+        2. In the Drawer, Select the group to set active from the Drop down.
+        \n\n
+        <b>Note: </b>Once you change the group, the data of the application will be change according to currently active group.
+    </string>
+
+    //Remove Item from Low Stock Instructions
+    <string name="removeFromLow1">
+        1. Select <b>Low Stock</b> tab from <b>Dashboard</b>.
+    </string>
+
+    <string name="removeFromLow2">
+        2. Click on <b>Remove Icon</b> of item you want to Mark as <b>In Stock</b> i.e. remove from Low Stock
+    </string>
+
+    //Add Item to Low Stock Instructions
+    <string name="addLowStock1">
+        1. Select <b>Low Stock</b> tab from <b>Dashboard</b>.
+    </string>
+
+    <string name="addLowStock2">
+        2. Click on <b>Add Icon</b> on Right Bottom corner
+    </string>
+
+    <string name="addLowStock3">
+        3. Click on <b>Add Icon</b> of item you want to Mark as <b>Low Stock</b> i.e. add to Low Stock
+    </string>
+
+
+    //Edit Name Instructions
+    <string name="editName1">
+        1. Click on 3 Horizontal Lines at Top Left corner.
+    </string>
+
+    <string name="editName2">
+        2. Click on <b>Edit Name</b> option.
+    </string>
+
+    <string name="editName3">
+        3. Enter new name and hit <b>Change Name</b> Button.
+    </string>
+
+
+    //Change Password Instructions
+    <string name="changePass1">
+        1. Click on 3 Horizontal Lines at Top Left corner.
+    </string>
+
+    <string name="changePass2">
+        2. Click on <b>Change Password</b> option.
+    </string>
+
+    <string name="changePass3">
+        3. Enter <b>Current Password</b>, <b>New Password</b> and <b>Retype New Password</b>.
+    </string>
+
 </resources>

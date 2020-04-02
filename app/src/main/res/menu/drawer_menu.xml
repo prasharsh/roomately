@@ -17,6 +17,16 @@
         </menu>
     </item>
 
+    <item android:title="Need Help ?">
+        <menu>
+            <item
+                android:title="Help"
+                android:icon="@drawable/help"
+                android:iconTint="@android:color/darker_gray"
+                android:id="@+id/help"/>
+        </menu>
+    </item>
+
     <group>
         <item
             android:title="Delete Account"

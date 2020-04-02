@@ -58,7 +58,6 @@ class InvitationListAdapter: RecyclerView.Adapter<InvitationListAdapter.ViewHold
                                 SetOptions.merge())
                         }
 
-
                     Data.groups.add(i.group.split(Data.CONCAT)[1])
                     Toast.makeText(ctx,"You are added to group",Toast.LENGTH_LONG).show()
                     notifyDataSetChanged()

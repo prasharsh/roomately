@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -147,7 +148,7 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
     {
         var parent: ConstraintLayout
         var txtItem: TextView
-        var removeItem: ImageView
+        var removeItem: ImageButton
         var txtCat: TextView
         constructor(itemView: View) : super(itemView)
         {

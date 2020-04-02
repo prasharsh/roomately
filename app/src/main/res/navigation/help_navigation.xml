@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/help_navigation"
+    app:startDestination="@id/helpButtonsFragment">
+
+    <fragment
+        android:id="@+id/helpButtonsFragment"
+        tools:layout="@layout/help_buttons"
+        android:name="com.titans.roomatelyapp.help.HelpButtonsFragment"
+        android:label="HelpButtonsFragment" >
+        <action
+            android:id="@+id/goToAddItem"
+            app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/goToDeleteItem"
+            app:destination="@id/deleteItemFragment" />
+        <action
+            android:id="@+id/goToDeleteCategory"
+            app:destination="@id/deleteCategoryFragment" />
+        <action
+            android:id="@+id/goToAddGroup"
+            app:destination="@id/addGroupFragment" />
+        <action
+            android:id="@+id/goToAddMember"
+            app:destination="@id/addMemberFragment" />
+        <action
+            android:id="@+id/goToAcceptInvitation"
+            app:destination="@id/acceptInvitationsFragment" />
+        <action
+            android:id="@+id/goToSelectActiveGroup"
+            app:destination="@id/selectActiveGroupFragment" />
+        <action
+            android:id="@+id/gotToRemoveItemFromLowStock"
+            app:destination="@id/removeItemFromLowStockFragment" />
+        <action
+            android:id="@+id/goToAddItemToLowStock"
+            app:destination="@id/addItemToLowStockFragment" />
+        <action
+            android:id="@+id/goToEditName"
+            app:destination="@id/editNameFragment" />
+        <action
+            android:id="@+id/goToChangePassword"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.titans.roomatelyapp.help.AddItemFragment"
+        tools:layout="@layout/help_add_item"
+        android:label="AddItemFragment" />
+    <fragment
+        android:id="@+id/deleteItemFragment"
+        android:name="com.titans.roomatelyapp.help.DeleteItemFragment"
+        android:label="DeleteItemFragment" />
+    <fragment
+        android:id="@+id/deleteCategoryFragment"
+        android:name="com.titans.roomatelyapp.help.DeleteCategoryFragment"
+        android:label="DeleteCategoryFragment" />
+    <fragment
+        android:id="@+id/addGroupFragment"
+        android:name="com.titans.roomatelyapp.help.AddGroupFragment"
+        android:label="AddGroupFragment" />
+    <fragment
+        android:id="@+id/addMemberFragment"
+        android:name="com.titans.roomatelyapp.help.AddMemberFragment"
+        android:label="AddMemberFragment" />
+    <fragment
+        android:id="@+id/acceptInvitationsFragment"
+        android:name="com.titans.roomatelyapp.help.AcceptInvitationsFragment"
+        android:label="AcceptInvitationsFragment" />
+    <fragment
+        android:id="@+id/selectActiveGroupFragment"
+        android:name="com.titans.roomatelyapp.help.SelectActiveGroupFragment"
+        android:label="SelectActiveGroupFragment" />
+    <fragment
+        android:id="@+id/removeItemFromLowStockFragment"
+        android:name="com.titans.roomatelyapp.help.RemoveItemFromLowStockFragment"
+        android:label="RemoveItemFromLowStockFragment" />
+    <fragment
+        android:id="@+id/addItemToLowStockFragment"
+        android:name="com.titans.roomatelyapp.help.AddItemToLowStockFragment"
+        android:label="AddItemToLowStockFragment" />
+    <fragment
+        android:id="@+id/editNameFragment"
+        android:name="com.titans.roomatelyapp.help.EditNameFragment"
+        android:label="EditNameFragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.titans.roomatelyapp.help.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
+</navigation>

@@ -40,37 +40,6 @@ class Data {
             db = FirebaseFirestore.getInstance()
         }
 
-        fun setTranscationListners(ctx: Context)
-        {
-            for(group in currentUser.groups)
-            {
-                db.collection(GROUPS).document(group).collection("transactions")
-                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                        if(firebaseFirestoreException!=null)
-                            return@addSnapshotListener
-
-                        Log.e("TAG","New Activity in "+group)
-
-                        if(started)
-                        {
-
-                            var nManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-                            var builder = NotificationCompat.Builder(ctx, ctx.packageName)
-                                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                                .setContentTitle("New Activity in Group "+group.split(CONCAT)[1])
-                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-                            nManager.notify(100,builder.build())
-
-                        }
-
-                        if(currentUser.groups.indexOf(group)== currentUser.groups.lastIndex)
-                            started = true
-                    }
-            }
-        }
-
         fun getGroupAdapter(ctx: Context): GroupListAdapter
         {
             groupListAdapter = GroupListAdapter(ctx)
