@@ -3,6 +3,7 @@ package com.titans.roomatelyapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.titans.roomatelyapp.introslider.IntroSliderActivity
 
 class SplashScreenActivity : AppCompatActivity()
 {
@@ -21,7 +22,7 @@ class SplashScreenActivity : AppCompatActivity()
                 {
                     // MainActivity will start after 5 seconds
                     Thread.sleep(3000)
-                    val intent = Intent(baseContext, MainActivity::class.java)
+                    val intent = Intent(baseContext, IntroSliderActivity::class.java)
                     startActivity(intent)
 
                 } catch (e: Exception)
