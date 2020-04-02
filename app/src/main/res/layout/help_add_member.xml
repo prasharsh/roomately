@@ -50,7 +50,7 @@
                 android:id="@+id/img1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtLine1"
-                android:src="@drawable/add_member"/>
+                android:src="@drawable/add_member_button"/>
 
             <TextView
                 android:layout_width="match_parent"
