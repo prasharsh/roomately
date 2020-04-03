@@ -109,7 +109,7 @@ class LowStockListAdapter: RecyclerView.Adapter<LowStockListAdapter.ViewHolder>
                     var t = Transaction(
                         title = item.item.name+ " back in stock",
                         subTitle = "Marked By: "+Data.currentUser.name,
-                        date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+                        date = Data.getTimeStamp()
                     )
                     Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
                         .document(Data.getTimeStamp()).set(t)

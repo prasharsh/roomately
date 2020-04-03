@@ -36,7 +36,7 @@
                 android:drawableLeft="@drawable/ic_user"
                 android:inputType="text"
                 android:maxLength="20"
-                android:padding="20px" />
+                android:padding="30px" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,7 @@
                 android:drawableLeft="@drawable/phone_icon"
                 android:inputType="phone"
                 android:maxLength="20"
-                android:padding="20px" />
+                android:padding="30px" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

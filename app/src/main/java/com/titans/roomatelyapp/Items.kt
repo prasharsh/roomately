@@ -5,25 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.titans.roomatelyapp.DataModels.Category
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.RecyclerViewAdapters.CategoryListAdapter
-import com.titans.roomatelyapp.RecyclerViewAdapters.ItemListAdapter
 import kotlinx.android.synthetic.main.activity_items.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 import com.titans.roomatelyapp.dialogs.ProductDetailDialog
-import com.titans.roomatelyapp.items.ItemsActivity
-import com.titans.roomatelyapp.login.RegistrationActivity
-import kotlinx.android.synthetic.main.activity_item_crud.*
+import com.titans.roomatelyapp.items.AddItemActivity
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -48,7 +42,6 @@ class Items : AppCompatActivity()
         backButton.setOnClickListener { _ -> onBackPressed() }
         txtToolbarLabel.text = Data.selectedGroup+" > Items"
 
-//        getData()
         adapter = CategoryListAdapter(this, filteredCategories)
 
         var animation = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_animation_fall_down)
@@ -68,7 +61,9 @@ class Items : AppCompatActivity()
         })
 
         navToAddItem.setOnClickListener{v ->
-            startActivity(Intent(v.context, ItemsActivity::class.java))}
+            var i = Intent(v.context, AddItemActivity::class.java)
+            i.putExtra("CATEGORIES",getCategoryList())
+            startActivity(i)}
 
         barcodScannerFloatingButtoon.setOnClickListener { v ->
             val launchIntent: Intent = BarcodeReaderActivity.getLaunchIntent(this, true, false)
@@ -138,6 +133,17 @@ class Items : AppCompatActivity()
         Log.e("TAG", categories.size.toString())
     }
 
+    fun getCategoryList(): ArrayList<String>
+    {
+        var categories = ArrayList<String>()
+
+        for(cat in this.categories)
+        {
+            categories.add(cat.title)
+        }
+        return categories
+    }
+
     override fun onResume() {
         super.onResume()
         getData()
@@ -189,20 +195,5 @@ class Items : AppCompatActivity()
         adapter.notifyDataSetChanged()
     }
 
-    //    fun getData(): ArrayList<Category>
-//    {
-//        var list = ArrayList<Category>()
-//        for(j in 1..3)
-//        {
-//            var items = ArrayList<Item>()
-//            for(i in 1..10)
-//            {
-//                var item = Item("Item$i",i%2==0)
-//                items.add(item)
-//            }
-//            list.add(Category("Category$j",items))
-//        }
-//        return list
-//    }
 }
  

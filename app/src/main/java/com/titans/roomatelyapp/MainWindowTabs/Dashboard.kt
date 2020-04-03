@@ -2,7 +2,6 @@ package com.titans.roomatelyapp.MainWindowTabs
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,14 +11,13 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.titans.roomatelyapp.*
 import com.titans.roomatelyapp.DataModels.Category
 import com.titans.roomatelyapp.DataModels.Item
 import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 import com.titans.roomatelyapp.dialogs.ProductDetailDialog
-import com.titans.roomatelyapp.items.ItemsActivity
+import com.titans.roomatelyapp.items.AddItemActivity
 
 class Dashboard: Fragment()
 {
@@ -123,7 +121,7 @@ class Dashboard: Fragment()
         alert.setMessage("Would you like to add this product?")
         alert.setPositiveButton("Add", {
             dialog, which ->
-            var i = Intent(ctx,ItemsActivity::class.java)
+            var i = Intent(ctx,AddItemActivity::class.java)
 
             i.putExtra("barcode",b)
             ctx.startActivity(i)

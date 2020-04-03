@@ -32,7 +32,6 @@ class Data {
         var invitations = ArrayList<Invitation>()
         var txtInvitations: MutableLiveData<Int> = MutableLiveData()
         var selectedGroup = ""
-        var started = false
 
 
         fun init()
@@ -107,7 +106,6 @@ class Data {
 
         //constants
         val CONCAT = "_ _"
-        val CONCATCOORD = "_/_"
         val GROUPNAME = "groupName"
 
         val GROUPS = "groups"

@@ -1,7 +1,8 @@
 package com.titans.roomatelyapp.dialogs
 
+import android.app.AlertDialog
 import android.content.Intent
-import android.opengl.Visibility
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,9 +19,6 @@ import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.RecyclerViewAdapters.ItemListAdapter
 import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 import com.titans.roomatelyapp.items.LocationActivity
-import kotlinx.android.synthetic.main.activity_item_crud.*
-import kotlinx.android.synthetic.main.drawer_header.*
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -123,6 +121,15 @@ class ProductDetailDialog: DialogFragment
 
         txtLocation.text = "Location: \n"+item.locations
         editBarcodes.setText("Location: \n"+item.locations)
+
+        txtLocation.setOnClickListener { v ->
+            if(!item.locations.equals(""))
+            {
+                val uri = "http://maps.google.co.in/maps?q=" + item.locations
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                requireContext().startActivity(intent)
+            }
+        }
 
         deleteButton.setOnClickListener { v -> deleteItem() }
 
@@ -260,15 +267,30 @@ class ProductDetailDialog: DialogFragment
 
     fun deleteItem()
     {
+        var alert = AlertDialog.Builder(requireContext())
+
+        alert.setIcon(resources.getDrawable(R.drawable.low_stock))
+        alert.setTitle("Alert")
+        alert.setMessage("Do you want to delete this item ?")
+
+        alert.setPositiveButton("Delete", {dialog, which ->
+            deleteConfirmed()
+        })
+
+        alert.setNegativeButton("Cancel",{dialog, which -> dismiss() })
+        alert.show()
+    }
+
+    fun deleteConfirmed()
+    {
         if(adapter!=null)
             adapter!!.items.remove(item)
 
-        var timeStamp = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
         if(Data.selectedGroup.equals("Self"))
         {
-           val i = hashMapOf<String,Any>(
-               item.name to FieldValue.delete()
-           )
+            val i = hashMapOf<String,Any>(
+                item.name to FieldValue.delete()
+            )
 
             Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items").document(category!!).update(i)
                 .addOnSuccessListener {
@@ -279,29 +301,28 @@ class ProductDetailDialog: DialogFragment
                         date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
                     )
                     Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("transactions")
-                        .document(timeStamp).set(t)
+                        .document(Data.getTimeStamp()).set(t)
                     dismiss()
                 }
         }
         else
         {
-
             val i = hashMapOf<String,Any>(
                 item.name to FieldValue.delete()
             )
 
             Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1]).collection("items").document(category!!).update(i)
-                    .addOnSuccessListener {
-                        var t = Transaction(
-                            title = item.name+ " back in stock",
-                            subTitle = "Marked By: "+Data.currentUser.name,
-                            date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
-                        )
-                        Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1])
-                            .collection("transactions").document(timeStamp).set(t)
+                .addOnSuccessListener {
+                    var t = Transaction(
+                        title = item.name+ " back in stock",
+                        subTitle = "Marked By: "+Data.currentUser.name,
+                        date = SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime())
+                    )
+                    Data.db.collection(Data.GROUPS).document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup)-1])
+                        .collection("transactions").document(Data.getTimeStamp()).set(t)
 
-                        dismiss()
-                    }
+                    dismiss()
+                }
         }
 
         if(adapter!=null)

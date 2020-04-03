@@ -94,7 +94,7 @@
         android:layout_marginTop="10sp"
         android:visibility="gone"
         android:inputType="textMultiLine"
-        android:layout_below="@id/editLocation"
+        android:layout_below="@id/editBarcodes"
         android:id="@+id/editLocation"/>
 
     <LinearLayout

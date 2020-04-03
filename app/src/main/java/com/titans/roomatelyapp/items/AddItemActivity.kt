@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.SetOptions
 import com.titans.roomatelyapp.Data
@@ -22,47 +23,29 @@ import com.titans.roomatelyapp.DataModels.Transaction
 import com.titans.roomatelyapp.R
 import com.titans.roomatelyapp.barcodeReader.BarcodeReaderActivity
 
-//class ItemsActivity: AppCompatActivity()
-//{
-//    private var productName: EditText?= null
-//    private var productDesc: EditText?= null
-//    private var productCategory: EditText?= null
-//    private var switchStockStatus: Switch?= null
-//    lateinit var addLocationBtn: FloatingActionButton
-//    private var location: TextView?= null
-//    private var productLocation: String? =null
-//    lateinit var backButton: ImageButton
-//    lateinit var saveBtn: FloatingActionButton
-//    private val user = FirebaseAuth.getInstance().currentUser
 
-class ItemsActivity: AppCompatActivity() {
+
+class AddItemActivity: AppCompatActivity() {
     val BARCODE_READER_ACTIVITY_REQUEST = 1208
     val LOCATION_ACTIVITY_REQUEST = 1308
+    lateinit var categoryList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_crud)
 
-//        var intent = intent
-//        var productLocation = intent.getStringExtra("Name") + " - " + intent.getStringExtra("Address")
-//        ETDesc.setText(intent.getStringExtra("productDesc"))
-//        ETProductCategory.setText(intent.getStringExtra("productCategory"))
-//        ETProductName.setText(intent.getStringExtra("productName"))
-//        if (!(productLocation!!.contains("null")))
-//            tvLocation.text = productLocation
 
         backButton.setOnClickListener { _ -> onBackPressed() }
         txtToolbarLabel.text = getString(R.string.add_item)
 
         checkValues()
 
+        categoryList = intent.getStringArrayListExtra("CATEGORIES")
+        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,categoryList)
+        ETProductCategory.setAdapter(adapter)
+
         addLocationBtn.setOnClickListener {
             val intent = Intent(this, LocationActivity::class.java)
-
-//            intent.putExtra("productName", ""+ETProductName.text+"")
-//            intent.putExtra("productCategory", ""+ETProductCategory.text+"")
-//            intent.putExtra("productDesc", ""+ETDesc.text+"")
-
             startActivityForResult(intent,LOCATION_ACTIVITY_REQUEST)
         }
 
@@ -84,7 +67,7 @@ class ItemsActivity: AppCompatActivity() {
     }
 
     fun saveData() {
-        if (ETProductName.text.length == 0 || ETDesc.text.length == 0 || ETProductCategory.text.length == 0) {
+        if (ETProductName.text?.length == 0 || ETDesc.text?.length == 0 || ETProductCategory.text.isEmpty()) {
             showError()
             Toast.makeText(
                 baseContext,
@@ -108,84 +91,103 @@ class ItemsActivity: AppCompatActivity() {
                 barcodes = ArrayList<String>(barcode)
             )
 
-            var i = hashMapOf(name to item)
+            if(!categoryList.contains(category))
+            {
+                var alert = AlertDialog.Builder(this)
 
+                alert.setTitle("Category $category Not Available")
+                alert.setMessage("Do you want to create new category: $category ?")
 
+                alert.setPositiveButton("Create New",{dialog, which ->
+                    saveConfirmed(item, category)
+                    dialog.dismiss()
+                })
 
-            if (Data.selectedGroup.equals("Self")) {
-                Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
-                    .document(category).set(
-                        i,
-                        SetOptions.merge()
-                    )
-                    .addOnSuccessListener { void ->
-
-
-                        var transaction = Transaction(
-                            title = "Item Added: " + name,
-                            subTitle = "Added By : " + Data.currentUser.name,
-                            date = SimpleDateFormat("dd-MMM-yyyy").format(
-                                Calendar.getInstance().getTime()
-                            )
-                        )
-
-                        Data.db.collection(Data.USERS).document(Data.currentUser.phone)
-                            .collection("transactions")
-                            .document(Data.getTimeStamp()).set(transaction)
-
-                        Toast.makeText(this, "Item Added", Toast.LENGTH_LONG).show()
-                        onBackPressed()
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(
-                            this,
-                            "Error Adding Item",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-            } else {
-                Data.db.collection(Data.GROUPS)
-                    .document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup) - 1])
-                    .collection("items").document(category).set(
-                        i,
-                        SetOptions.merge()
-                    )
-                    .addOnSuccessListener { void ->
-
-                        var transaction = Transaction(
-                            title = "Item Added: " + name,
-                            subTitle = "Added By : " + Data.currentUser.name,
-                            date = SimpleDateFormat("dd-MMM-yyyy").format(
-                                Calendar.getInstance().getTime()
-                            )
-                        )
-
-                        Data.db.collection(Data.GROUPS)
-                            .document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup) - 1])
-                            .collection("transactions")
-                            .document(Data.getTimeStamp()).set(transaction)
-
-                        Toast.makeText(this, "Item Added", Toast.LENGTH_LONG).show()
-                        onBackPressed()
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(
-                            this,
-                            "Error Adding Item",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                alert.setNegativeButton("Select Another",{dialog, which -> dialog.dismiss() })
+                alert.show()
             }
+            else
+                saveConfirmed(item,category)
 
         }
     }
 
+    fun saveConfirmed(item: Item, category: String)
+    {
+        var i = hashMapOf(item.name to item)
+
+        if (Data.selectedGroup.equals("Self")) {
+            Data.db.collection(Data.USERS).document(Data.currentUser.phone).collection("items")
+                .document(category).set(
+                    i,
+                    SetOptions.merge()
+                )
+                .addOnSuccessListener { void ->
+
+
+                    var transaction = Transaction(
+                        title = "Item Added: " + item.name,
+                        subTitle = "Added By : " + Data.currentUser.name,
+                        date = SimpleDateFormat("dd-MMM-yyyy").format(
+                            Calendar.getInstance().getTime()
+                        )
+                    )
+
+                    Data.db.collection(Data.USERS).document(Data.currentUser.phone)
+                        .collection("transactions")
+                        .document(Data.getTimeStamp()).set(transaction)
+
+                    Toast.makeText(this, "Item Added", Toast.LENGTH_LONG).show()
+                    onBackPressed()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(
+                        this,
+                        "Error Adding Item",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+        }
+        else {
+            Data.db.collection(Data.GROUPS)
+                .document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup) - 1])
+                .collection("items").document(category).set(
+                    i,
+                    SetOptions.merge()
+                )
+                .addOnSuccessListener { void ->
+
+                    var transaction = Transaction(
+                        title = "Item Added: " + item.name,
+                        subTitle = "Added By : " + Data.currentUser.name,
+                        date = SimpleDateFormat("dd-MMM-yyyy").format(
+                            Calendar.getInstance().getTime()
+                        )
+                    )
+
+                    Data.db.collection(Data.GROUPS)
+                        .document(Data.currentUser.groups[Data.groups.indexOf(Data.selectedGroup) - 1])
+                        .collection("transactions")
+                        .document(Data.getTimeStamp()).set(transaction)
+
+                    Toast.makeText(this, "Item Added", Toast.LENGTH_LONG).show()
+                    onBackPressed()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(
+                        this,
+                        "Error Adding Item",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        }
+    }
     private fun showError() {
-        if (ETProductName.text.length == 0) {
+        if (ETProductName.text?.length == 0) {
             ETProductName.error = "Product name cannot be blank."
         }
-        if (ETDesc.text.length == 0) {
+        if (ETDesc.text?.length == 0) {
             ETDesc.error = "Product description cannot be blank."
         }
         if (ETProductCategory.text.length == 0) {

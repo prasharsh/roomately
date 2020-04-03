@@ -56,7 +56,6 @@ class Members : AppCompatActivity() {
 
         alert.setPositiveButton("Delete",{dialog, which ->
             deleteGroup(grp)
-            Data.updateGroups()
             Data.groupListAdapter?.notifyDataSetChanged()
             onBackPressed()
         })
@@ -89,6 +88,13 @@ class Members : AppCompatActivity() {
             .addOnSuccessListener { void ->
                 Toast.makeText(applicationContext,"Group \""+group.split(Data.CONCAT)[1]+"\" deleted",Toast.LENGTH_LONG).show()
             }
+
+        Data.currentUser.groups.remove(group)
+        Data.createGroupList()
+        if(!Data.groups.contains(Data.selectedGroup))
+        {
+            Data.selectedGroup = "Self"
+        }
     }
 
     fun getMembers(grp: String,members: ArrayList<User>,adapter: MemberListAdapter)

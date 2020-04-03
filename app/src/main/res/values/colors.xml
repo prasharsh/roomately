@@ -8,5 +8,5 @@
     <color name="green">#00D507</color>
     <color name="red">@android:color/holo_red_light</color>
     <color name="scanner_line">#00ceff</color>
-    <color name="appBackground">#fff</color>
+    <color name="appBackground">#E3F2FD</color>
 </resources>
