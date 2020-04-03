@@ -39,7 +39,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="#2a74eb"
         android:layout_alignParentBottom="true"
         android:id="@+id/deleteButton"
         android:text="Delete Group"

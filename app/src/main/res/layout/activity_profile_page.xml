@@ -90,6 +90,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="24dp"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:background="#2a74eb"
         android:text="@string/logout"
         android:padding="20dp"/>
 

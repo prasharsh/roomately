@@ -11,13 +11,13 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeWidth="2sp"
         app:boxStrokeColor="@color/actionbar"
-        android:hint="Enter Name"
+        android:hint="  Enter Name"
         android:id="@+id/container">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_height="45dp"
+            android:background="@drawable/editext_round_blue"            android:inputType="text"
             android:id="@+id/inputNewName"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -29,8 +29,7 @@
         android:layout_marginTop="25sp"
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:backgroundTint="@android:color/holo_red_light"
-        app:rippleColor="@android:color/holo_red_dark"
+        android:backgroundTint="#2a74eb"
         android:id="@+id/changeNameButton"
         android:layout_below="@id/container"/>
 

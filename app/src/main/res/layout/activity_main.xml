@@ -24,6 +24,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/dehaze"
                     android:id="@+id/dehaze"
+                    android:layout_marginRight="10sp"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView

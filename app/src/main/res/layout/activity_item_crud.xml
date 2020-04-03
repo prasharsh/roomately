@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Items">
+    tools:context=".items.AddItemActivity">
 
     <include
         android:id="@+id/actionbar"
@@ -51,8 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5sp"
-            android:hint="@string/product_desc_hint"
-            >
+            android:background="@drawable/editext_round_blue"
+            android:layout_marginTop="16dp"
+            android:hint="@string/product_name_hint"
+            android:importantForAutofill="no" >
+
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ETDesc"
                 android:layout_width="match_parent"
@@ -67,6 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5sp"
+            android:background="@drawable/editext_round_blue"
+            android:inputType="textAutoComplete"
             android:hint="@string/category_hint"
             >
             <AutoCompleteTextView

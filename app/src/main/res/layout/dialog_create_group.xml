@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/actionbar"
-        android:hint="Group Name"
+        android:hint="  Group Name"
         android:id="@+id/containerPhone"
         app:helperText="Ex. Apartment 111">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/editext_round_blue"
             android:inputType="text"
             android:id="@+id/inputGroupName"/>
 
@@ -29,7 +30,7 @@
         android:layout_marginTop="15sp"
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:backgroundTint="@android:color/holo_red_light"
+        android:backgroundTint="#2a74eb"
         app:rippleColor="@android:color/holo_red_dark"
         android:id="@+id/createGroupButton"
         android:layout_below="@id/containerPhone"/>
