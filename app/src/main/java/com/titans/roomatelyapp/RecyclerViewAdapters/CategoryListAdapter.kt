@@ -85,7 +85,7 @@ class CategoryListAdapter: RecyclerView.Adapter<CategoryListAdapter.ViewHolder>
 
         alert.setTitle("Alert!")
         alert.setIcon(ctx.getDrawable(R.drawable.low_stock))
-        alert.setMessage("$category contains $numItems items\n Do you want to delete $category ?")
+        alert.setMessage("$category contains $numItems items\nDo you want to delete $category ?")
         alert.setPositiveButton("Delete",{dialog, which ->
             deleteCategory(cat)
             categoryList.remove(cat)

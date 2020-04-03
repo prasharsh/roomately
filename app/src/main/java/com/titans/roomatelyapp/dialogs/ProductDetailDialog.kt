@@ -277,7 +277,7 @@ class ProductDetailDialog: DialogFragment
             deleteConfirmed()
         })
 
-        alert.setNegativeButton("Cancel",{dialog, which -> dismiss() })
+        alert.setNegativeButton("Cancel",{dialog, which -> })
         alert.show()
     }
 
