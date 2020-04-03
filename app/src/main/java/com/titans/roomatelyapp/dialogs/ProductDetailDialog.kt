@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.titans.roomatelyapp.Data
@@ -39,6 +40,12 @@ class ProductDetailDialog: DialogFragment
     lateinit var txtItemStatus: TextView
     lateinit var txtBarcodes: TextView
     lateinit var txtLocation: TextView
+
+    lateinit var lName: TextInputLayout
+    lateinit var lDesc: TextInputLayout
+    lateinit var lBarcodes: TextInputLayout
+    lateinit var lLocation: TextInputLayout
+
     lateinit var editButton: ImageButton
     lateinit var deleteButton: ImageButton
     lateinit var cameraButton: ImageButton
@@ -76,6 +83,12 @@ class ProductDetailDialog: DialogFragment
         txtItemStatus = view.findViewById(R.id.txtStatus)
         txtBarcodes = view.findViewById(R.id.txtBarcodes)
         txtLocation = view.findViewById(R.id.txtLocation)
+
+        lName = view.findViewById(R.id.lName)
+        lDesc = view.findViewById(R.id.lDesc)
+        lBarcodes = view.findViewById(R.id.lBarcodes)
+        lLocation = view.findViewById(R.id.lLocation)
+
         editButton = view.findViewById(R.id.editButton)
         deleteButton = view.findViewById(R.id.deletButton)
         cameraButton = view.findViewById(R.id.cameraButton)
@@ -114,13 +127,11 @@ class ProductDetailDialog: DialogFragment
         }
 
         txtBarcodes.text = b
-        editBarcodes.setText(b)
 
         Log.e("TAG",item.locations)
         Log.e("TAG",item.locations.split(Data.CONCAT)[0])
 
         txtLocation.text = "Location: \n"+item.locations
-        editBarcodes.setText("Location: \n"+item.locations)
 
         txtLocation.setOnClickListener { v ->
             if(!item.locations.equals(""))
@@ -162,13 +173,8 @@ class ProductDetailDialog: DialogFragment
         var desc = editDesc.text.toString()
         var barcodes = editBarcodes.text.toString()
         var status = checkStatus.isChecked
-        var locationList = editLocation.text.toString().trim().split("\n")
+        var location = editLocation.text.toString().trim()
 
-        var location = ""
-        if(locationList.size>1)
-        {
-            location=locationList[1]
-        }
 
         if(name.equals(""))
         {
@@ -182,7 +188,13 @@ class ProductDetailDialog: DialogFragment
         }
 
         txtItemName.text = name
+        item.name = name
+
         txtItemDesc.text = desc
+        item.desc = desc
+
+        txtLocation.text = "Location:\n"+location
+        item.locations = location
 
         if(status)
         {
@@ -194,6 +206,7 @@ class ProductDetailDialog: DialogFragment
             txtItemStatus.text = "Status: Low Stock"
             txtItemStatus.setTextColor(context!!.resources.getColor(R.color.red))
         }
+        item.inStock = status
 
         var barcodeList = ArrayList<String>()
 
@@ -209,14 +222,8 @@ class ProductDetailDialog: DialogFragment
         }
 
         txtBarcodes.text = b
+        item.barcodes = barcodeList
 
-        var item = Item(
-            name = name,
-            desc = desc,
-            inStock = status,
-            barcodes = barcodeList,
-            locations = location
-        )
 
         var update = hashMapOf(
             name to item
@@ -334,12 +341,16 @@ class ProductDetailDialog: DialogFragment
         editName.setText(item.name)
         editDesc.setText(item.desc)
         checkStatus.isChecked = item.inStock
+        editLocation.setText(item.locations)
 
         var b = ""
 
         for(barcode in item.barcodes)
         {
-            b+="\n"+barcode
+            if(item.barcodes.indexOf(barcode)==0)
+                b+=barcode
+            else
+                b+="\n"+barcode
         }
 
         editBarcodes.setText(b)
@@ -362,10 +373,10 @@ class ProductDetailDialog: DialogFragment
         txtBarcodes.visibility = primary
         normalLinear.visibility = primary
 
-        editName.visibility = edit
-        editDesc.visibility = edit
-        editBarcodes.visibility = edit
-        editLocation.visibility = edit
+        lName.visibility = edit
+        lDesc.visibility = edit
+        lBarcodes.visibility = edit
+        lLocation.visibility = edit
         checkStatus.visibility = edit
         editLinear.visibility = edit
     }
