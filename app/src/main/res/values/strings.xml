@@ -13,9 +13,9 @@
     <string name="enter_email"> Enter Email</string>
     <string name="enter_password"> Enter Password</string>
     <string name="reg_phone">  Register with Phone Number</string>
-    <string name="reenter_pass">Re-enter Password</string>
-    <string name="product_name_hint">Enter Product Name</string>
-    <string name="product_desc_hint">Enter Product Description</string>
+    <string name="reenter_pass"> Re-enter Password</string>
+    <string name="product_name_hint">  Enter Product Name</string>
+    <string name="product_desc_hint">  Enter Product Description</string>
     <string name="toggle_low_stock">LOW-STOCK</string>
     <string name="toggle_in_stock">IN-STOCK</string>
     <string name="add_item">Add Item</string>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container"
-        android:background="@color/colorAccent"
+        android:background="@color/actionbar"
         android:padding="25sp"
         app:layout_constraintTop_toTopOf="parent">
         <TextView
