@@ -38,12 +38,12 @@ class IntroSliderActivity : AppCompatActivity(){
 //            startActivity(Intent(activity,SplashScreenActivity::class.java))
 //            finish()
 //        }
-        fragmentPage1.setIntroText("Welcome to Roomately. Make your life with roommates easier.")
-        fragmentPage2.setIntroText("Manage your inventory so that you never run out of your groceries")
-        fragmentPage3.setIntroText("Keep track of your shared expenses and split them")
+        fragmentPage1.setIntroText("Welcome to Roomately. Add your roommates and make your life easier together.")
+        fragmentPage2.setIntroText("Keep track of your inventory. Add your products and get notified when they are low in stock.")
+        fragmentPage3.setIntroText("Use the barcode scanner to add products and search them to know if they are in stock. ")
         fragmentPage1.setIntroImage(R.drawable.ic_mobile)
         fragmentPage2.setIntroImage(R.drawable.ic_shopping)
-        fragmentPage3.setIntroImage(R.drawable.ic_wallet)
+        fragmentPage3.setIntroImage(R.drawable.barcodescan)
 
         pagerAdapter = introPagerAdapter(supportFragmentManager)
         pagerAdapter.fragment_list.add(fragmentPage1)

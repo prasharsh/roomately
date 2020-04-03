@@ -3,7 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="actionbar">#00B9E6</color>
+    <color name="actionbar">#2a74eb</color>
     <color name="appTitle">#fff</color>
     <color name="green">#00D507</color>
     <color name="red">@android:color/holo_red_light</color>
