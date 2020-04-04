@@ -431,6 +431,7 @@ class ProductDetailDialog: DialogFragment
             if(item.barcodes.contains(barcode))
             {
                 Toast.makeText(requireContext(),"Barcode Already Added",Toast.LENGTH_LONG).show()
+                return
             }
             item.barcodes.add(barcode!!)
 

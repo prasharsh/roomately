@@ -101,12 +101,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:id="@+id/lBarcodes"
+            android:visibility="gone"
             android:hint="List of Barcodes"
             android:layout_margin="5sp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/editext_round"

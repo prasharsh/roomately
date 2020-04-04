@@ -87,9 +87,11 @@ class Dashboard: Fragment()
 
     fun searchItem(querySnapshot: QuerySnapshot,ctx: Context, fragmentManager: FragmentManager, b: String)
     {
+        var categoryList = ArrayList<String>()
         for(doc in querySnapshot.documents)
         {
             var cat = Category(doc.id)
+            categoryList.add(cat.title)
             for(s in doc.data!!.keys)
             {
                 Log.e("TAG",s)
@@ -110,10 +112,10 @@ class Dashboard: Fragment()
             }
         }
 
-        createAlert(ctx, b)
+        createAlert(ctx, b, categoryList)
     }
 
-    fun createAlert(ctx: Context, b:String)
+    fun createAlert(ctx: Context, b:String, categoryList: ArrayList<String>)
     {
         var alert = AlertDialog.Builder(ctx)
 
@@ -124,6 +126,7 @@ class Dashboard: Fragment()
             var i = Intent(ctx,AddItemActivity::class.java)
 
             i.putExtra("barcode",b)
+            i.putExtra("CATEGORIES", categoryList)
             ctx.startActivity(i)
         })
         alert.setNegativeButton("Cancel",{dialog, which ->  })

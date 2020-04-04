@@ -49,6 +49,11 @@ class AddItemActivity: AppCompatActivity() {
             startActivityForResult(intent,LOCATION_ACTIVITY_REQUEST)
         }
 
+        var b = intent.extras?.getString("barcode")
+        if(b==null)
+            b=""
+        txtBarcode.text = "Barcodes: \n"+b
+
         backButton.setOnClickListener { _ -> onBackPressed() }
         txtToolbarLabel.text = Data.selectedGroup + " > " + getString(R.string.add_item)
         checkValues()
@@ -290,13 +295,16 @@ class AddItemActivity: AppCompatActivity() {
 
             if (txtBarcode.text.toString().split("\n").contains(barcode)) {
                 Toast.makeText(this, "Barcode Already Added", Toast.LENGTH_LONG).show()
-                return
+            }
+            else
+            {
+
+                if (txtBarcode.text.length != 0)
+                    barcode = "\n" + barcode
+
+                txtBarcode.text = txtBarcode.text.toString() + barcode
             }
 
-            if (txtBarcode.text.length != 0)
-                barcode = "\n" + barcode
-
-            txtBarcode.text = txtBarcode.text.toString() + barcode
         }
     }
 
