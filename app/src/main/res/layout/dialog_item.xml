@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="30sp"
+    android:background="@color/appBackground"
+    android:minWidth="1200dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:id="@+id/txtItemName"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/lName"
+            android:hint="@string/product_name_hint"
+            android:layout_margin="5sp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext_round"
+                android:inputType="text"
+                android:maxLength="20"
+                android:padding="30px" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desc"
+            android:textColor="@android:color/black"
+            android:id="@+id/txtItemDesc"
+            android:layout_below="@id/txtItemName"
+            android:layout_marginTop="20sp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/lDesc"
+            android:hint="@string/product_desc_hint"
+            android:layout_margin="5sp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext_round"
+                android:inputType="text"
+                android:maxLength="20"
+                android:id="@+id/editDesc"
+                android:padding="30px" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/txtItemDesc"
+            android:textColor="@android:color/black"
+            android:id="@+id/txtStatus"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:visibility="gone"
+            android:layout_below="@id/editDesc"
+            android:text="In Stock"
+            android:id="@+id/checkStatus"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Barcodes"
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/txtStatus"
+            android:textColor="@android:color/black"
+            android:id="@+id/txtBarcodes"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lBarcodes"
+            android:visibility="gone"
+            android:hint="List of Barcodes"
+            android:layout_margin="5sp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext_round"
+                android:maxLength="20"
+                android:inputType="textMultiLine"
+                android:id="@+id/editBarcodes"
+                android:padding="30px" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/txtBarcodes"
+            android:textColor="@android:color/black"
+            android:id="@+id/txtLocation"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/lLocation"
+            android:hint="Edit Location"
+            android:layout_margin="5sp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext_round"
+                android:maxLength="20"
+                android:id="@+id/editLocation"
+                android:inputType="textMultiLine"
+                android:padding="30px" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="25sp"
+                android:id="@+id/noramlLinear"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:backgroundTint="@android:color/black"
+                    android:background="@drawable/camera"
+                    android:id="@+id/cameraButton"/>
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:backgroundTint="@color/actionbar"
+                    android:background="@drawable/location"
+                    android:id="@+id/locationButton"/>
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:backgroundTint="@color/green"
+                    android:background="@drawable/edit"
+                    android:id="@+id/editButton"/>
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:backgroundTint="@color/red"
+                    android:background="@drawable/delete"
+                    android:id="@+id/deletButton"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="25sp"
+                android:id="@+id/hiddenLinear"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:background="@drawable/in_stock_green"
+                    android:id="@+id/saveButton"/>
+
+                <ImageButton
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:layout_margin="10sp"
+                    android:background="@drawable/reject"
+                    android:id="@+id/cancelButton"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

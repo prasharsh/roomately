@@ -1,21 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.titans.roomatelyapp" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.titans.roomatelyapp">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_appicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_appicon_round"
+
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".help.HelpFragmentContainer"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".Invitations"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/SplashTheme"
+            android:noHistory="true"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity android:name=".introslider.IntroSliderActivity" />-->
+<!--        <activity android:name=".Members" />-->
+<!--        <activity android:name=".barcodeReader.BarcodeReaderActivity" />-->
+<!--        <activity android:name=".ProfilePage" />-->
+<!--        <activity android:name=".login.RegistrationActivity" />-->
+<!--        <activity android:name=".login.LoginActivity" />-->
+<!--        <activity android:name=".LowStockItems" />-->
+<!--        <activity android:name=".items.AddItemActivity" />-->
+<!--        <activity android:name=".items.LocationActivity" />-->
+<!--        <activity android:name=".Items" />-->
+<!--        <activity android:name=".Transactions" />-->
+        <activity android:name=".introslider.IntroSliderActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".Members"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".barcodeReader.BarcodeReaderActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".ProfilePage"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".login.RegistrationActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".login.LoginActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".LowStockItems"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".items.AddItemActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".items.LocationActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".Items"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".Transactions"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation = "portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCpUagO6nAHRj3djRR9a22CQVCfJ0zXCLg" />
     </application>
 
 </manifest>

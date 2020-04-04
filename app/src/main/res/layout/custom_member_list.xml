@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="5sp"
+    android:layout_margin="4sp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Member"
+        android:textSize="20sp"
+        android:id="@+id/txtMember"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="5sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtMember"
+        android:layout_margin="5sp"
+        android:text="Invited By: "
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/txtPhoneNumber"/>
+
+    <ImageButton
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/reject"
+        android:id="@+id/removeButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

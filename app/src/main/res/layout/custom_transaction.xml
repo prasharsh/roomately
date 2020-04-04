@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5sp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_marginEnd="70sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/txtTitle"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SubTitle"
+        android:layout_marginTop="5sp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        android:textColor="@android:color/black"
+        android:id="@+id/txtSubTitle"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/txtDate"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2sp"
+        app:layout_constraintTop_toBottomOf="@id/txtSubTitle"
+        android:layout_marginTop="5sp"
+        android:background="@android:color/darker_gray"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

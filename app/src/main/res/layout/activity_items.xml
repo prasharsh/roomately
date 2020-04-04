@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Items">
+
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/actionbar"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:layout_below="@id/actionbar"
+        android:elevation="5sp"
+        android:id="@+id/searchItem"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5sp"
+        android:layout_below="@+id/searchItem" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/barcodScannerFloatingButtoon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:clickable="true"
+        app:srcCompat="@drawable/camera_white"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/addItemFloatingButtoon"
+        android:layout_marginEnd="15sp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addItemFloatingButtoon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/actionbar"
+        android:clickable="true"
+        app:srcCompat="@drawable/add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15sp"/>
+
+</RelativeLayout >
